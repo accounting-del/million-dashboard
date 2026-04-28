@@ -324,12 +324,12 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
       <button class="atb on" id="atc" onclick="sAM('cash')">Cash</button>
       <button class="atb" id="ata" onclick="sAM('accrual')">Accrual</button>
     </div>
+    <div class="csep"></div>
+    <button class="exp-btn" onclick="gMo()" style="border-color:var(--bs);color:var(--txt)">← Back to Month</button>
     <div class="ann-r">
       <span class="ann-hint" id="ah">Full Year 2026 — Cash Basis</span>
       <div class="csep"></div>
       <button class="exp-btn" id="eb" onclick="tAll()">Expand All</button>
-      <div class="csep"></div>
-      <button class="exp-btn" onclick="gMo()" style="border-color:var(--bs);color:var(--txt)">← Back to Month</button>
     </div>
   </div>
   <div class="ts">
@@ -574,7 +574,7 @@ function bM(){
     // Skip categories with no data in current month AND no YTD
     if(!cur&&!ytd&&!feb)return;
     const cdsp=catDisplay(cat.k);
-    h+=`<tr class="cr${cat.hl?' hl':''}"><td onclick="oCat(this,'${cat.k}',${mi})">${cdsp}</td><td onclick="oCat(this,'${cat.k}',${mi})">${F(cur)}</td><td>${prev!==null?F(feb):'—'}</td><td class="${dCl(cur,feb)}">${pct(cur,feb)}</td><td class="yc" onclick="oCatY(this,'${cat.k}',${mi})">${F(ytd)}</td></tr>`;
+    h+=`<tr class="cr${cat.hl?' hl':''}"><td onclick="oCat(this,'${cat.k}',${mi})">${cdsp}</td><td onclick="oCat(this,'${cat.k}',${mi})">${F(cur)}</td><td style="cursor:pointer" onclick="prev!==null&&oCatPrev(this,'${cat.k}',${prev})">${prev!==null?F(feb):'—'}</td><td class="${dCl(cur,feb)}">${pct(cur,feb)}</td><td class="yc" onclick="oCatY(this,'${cat.k}',${mi})">${F(ytd)}</td></tr>`;
     if(!cmp){
       cat.subs.forEach(sub=>{
         const sv=gV(sub,mi),sfv=prev!==null?gV(sub,prev):0;
@@ -584,7 +584,7 @@ function bM(){
         const sid=`s_${cat.k}_${sub.n}`.replace(/\W/g,'_');
         const isA=aSub===sid;
         const tags=(sub.ia?`<span class="at">accrual</span>`:'');
-        h+=`<tr class="sr${isA?' asr':''}" id="${sid}" onclick="sSub(this,'${cat.k}','${sub.n}',${mi},'${sid}')"><td>${sub.n}${tags}</td><td>${sv?F(sv):'—'}</td><td>${prev!==null?(sfv?F(sfv):'—'):'—'}</td><td class="${dCl(sv,sfv)}">${pct(sv,sfv)}</td><td class="yc" onclick="event.stopPropagation();oSubY(this,'${cat.k}','${sub.n}',${mi})">${sytd?F(sytd):'—'}</td></tr>`;
+        h+=`<tr class="sr${isA?' asr':''}" id="${sid}" onclick="sSub(this,'${cat.k}','${sub.n}',${mi},'${sid}')"><td>${sub.n}${tags}</td><td>${sv?F(sv):'—'}</td><td onclick="event.stopPropagation();prev!==null&&sfv&&oSubPrev(this,'${cat.k}','${sub.n}',${prev})">${prev!==null?(sfv?F(sfv):'—'):'—'}</td><td class="${dCl(sv,sfv)}">${pct(sv,sfv)}</td><td class="yc" onclick="event.stopPropagation();oSubY(this,'${cat.k}','${sub.n}',${mi})">${sytd?F(sytd):'—'}</td></tr>`;
       });
     }
   });
@@ -599,6 +599,8 @@ function sSub(el,ck,sn,mi,sid){
   oD(el,sn,`${ML[mi]} ${cY}`,gV(sub,mi),txns);
 }
 function oCat(el,ck,mi){aSub=null;const cat=CATS.find(c=>c.k===ck);const txns=cat.subs.flatMap(s=>s.tx[mi]||[]);oD(el,ck,`${ML[mi]} ${cY}`,gCV(cat,mi,mode),txns);}
+function oCatPrev(el,ck,mi){aSub=null;const cat=CATS.find(c=>c.k===ck);const txns=cat.subs.flatMap(s=>s.tx[mi]||[]);oD(el,ck,`${ML[mi]} ${cY}`,gCV(cat,mi,mode),txns);}
+function oSubPrev(el,ck,sn,mi){aSub=null;const cat=CATS.find(c=>c.k===ck),sub=cat.subs.find(s=>s.n===sn);const txns=sub.tx[mi]||[];oD(el,sn,`${ML[mi]} ${cY}`,gV(sub,mi),txns);}
 function oCatY(el,ck,mi){aSub=null;const cat=CATS.find(c=>c.k===ck);const txns=[];for(let i=0;i<=mi;i++)cat.subs.forEach(s=>(s.tx[i]||[]).forEach(t=>txns.push(t)));const ytd=cat.subs.reduce((s,sub)=>{const v=mode==='accrual'?sub.a:sub.c;return s+v.slice(0,mi+1).reduce((a,x)=>a+x,0);},0);oD(el,`${ck} YTD`,`Jan–${MS[mi]} ${cY}`,ytd,txns);}
 function oSubY(el,ck,sn,mi){aSub=null;const cat=CATS.find(c=>c.k===ck),sub=cat.subs.find(s=>s.n===sn);const txns=[];for(let i=0;i<=mi;i++)(sub.tx[i]||[]).forEach(t=>txns.push(t));const ytd=(mode==='accrual'?sub.a:sub.c).slice(0,mi+1).reduce((a,v)=>a+v,0);oD(el,`${sn} YTD`,`Jan–${MS[mi]} ${cY}`,ytd,txns);}
 
