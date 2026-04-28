@@ -320,17 +320,17 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
     <div style="margin-left:auto;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)">Click any cell · subcategory expands inline</div>
   </div>
   <div class="ann-ctrl">
-    <div class="atog">
-      <button class="atb on" id="atc" onclick="sAM('cash')">Cash</button>
-      <button class="atb" id="ata" onclick="sAM('accrual')">Accrual</button>
-    </div>
-    <div class="csep"></div>
-    <button class="exp-btn" onclick="gMo()" style="border-color:var(--bs);color:var(--txt)">← Back to Month</button>
-    <div class="ann-r">
-      <span class="ann-hint" id="ah">Full Year 2026 — Cash Basis</span>
+    <div class="ctrl-l">
+      <div class="atog">
+        <button class="atb on" id="atc" onclick="sAM('cash')">Cash</button>
+        <button class="atb" id="ata" onclick="sAM('accrual')">Accrual</button>
+      </div>
+      <div class="csep"></div>
+      <button class="exp-btn" onclick="gMo()" style="border-color:var(--bs);color:var(--txt)">← Back to Month</button>
       <div class="csep"></div>
       <button class="exp-btn" id="eb" onclick="tAll()">Expand All</button>
     </div>
+    <span class="ann-hint" id="ah">Full Year 2026 — Cash Basis</span>
   </div>
   <div class="ts">
     <table class="at2">
@@ -426,7 +426,7 @@ function sMi(i){
 }
 function tDD(){const d=document.getElementById('dd');const o=d.classList.contains('open');d.classList.toggle('open',!o);}
 function cDD(){document.getElementById('dd').classList.remove('open');}
-document.addEventListener('click',e=>{if(!e.target.closest('#hero')&&!e.target.closest('#dd'))cDD();});
+document.addEventListener('click',e=>{if(!e.target.closest('#hero-title')&&!e.target.closest('#dd'))cDD();});
 
 // VIEWS
 function gFY(){document.getElementById('vm').classList.remove('on');document.getElementById('va').classList.add('on');bA();}
