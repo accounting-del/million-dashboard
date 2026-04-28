@@ -132,18 +132,18 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .at2 tr.as.ao td{background:#f5f2ec}
 .at2 tr.as.ao td:first-child{color:var(--txt);font-weight:400;border-left:2px solid var(--bs);padding-left:32px}
 /* Annual vendor detail */
-.at2 tr.avr td{background:#f0ede8!important;border-bottom:.5px solid var(--brd);cursor:default!important;padding:0!important}
-.avi{padding:7px 14px 7px 48px;display:flex;flex-direction:column;gap:5px}
-.avmonth{display:flex;align-items:center;justify-content:space-between;padding:5px 14px 3px;background:var(--rhi);border-top:.5px solid var(--brd);margin-top:2px}
+.at2 tr.avr td{background:#f0ede8!important;border-bottom:.5px solid var(--brd);cursor:default!important;padding:0!important;width:100%}
+.avi{padding:6px 28px 6px 48px;display:flex;flex-direction:column;gap:3px;overflow:hidden}
+.avmonth{display:flex;align-items:center;justify-content:space-between;padding:5px 28px 3px 0;background:var(--rhi);border-top:.5px solid var(--brd);margin-top:4px;margin-bottom:2px}
 .avmonth:first-child{margin-top:0;border-top:none}
 .avml{font-size:7px;letter-spacing:.16em;text-transform:uppercase;color:var(--t2);font-weight:500}
 .avmv{font-size:9px;font-weight:500;color:var(--txt)}
-.avrow{display:flex;gap:10px;align-items:flex-start;padding:4px 0;border-bottom:.5px solid var(--brd)}
+.avrow{display:flex;gap:10px;align-items:center;padding:4px 0;border-bottom:.5px solid var(--brd);min-width:0}
 .avrow:last-child{border-bottom:none}
-.avd{font-size:8px;color:var(--t3);font-family:monospace;width:36px;flex-shrink:0;margin-top:1px}
+.avd{font-size:8px;color:var(--t3);font-family:monospace;width:68px;flex-shrink:0}
 .avn{font-size:10px;color:var(--txt);font-weight:400}
 .avs{font-size:8px;color:var(--t3);margin-top:1px}
-.ava{font-size:10px;font-weight:500;flex-shrink:0;color:var(--txt)}
+.ava{font-size:10px;font-weight:500;flex-shrink:0;color:var(--txt);min-width:70px;text-align:right}
 .ava.pj{color:var(--ptx);font-style:italic}
 .at2 tr.avt td{background:#e8e4da!important;border-bottom:.5px solid var(--b2)!important;cursor:default!important;padding:0!important}
 .avti{padding:5px 14px 5px 48px;display:flex;justify-content:space-between;font-size:8px;color:var(--t2)}
@@ -289,7 +289,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
   <div class="hint"><div class="hd"></div>Click a subcategory to see vendor detail</div>
   <div class="ts">
     <table class="mt">
-      <thead><tr><th id="th1">Category / Sub</th><th>March</th><th>February</th><th>Δ</th><th class="yh">YTD</th></tr></thead>
+      <thead><tr><th id="th1">Category / Sub</th><th id="th-cur">March</th><th id="th-prev">February</th><th>Δ</th><th class="yh">YTD</th></tr></thead>
       <tbody id="mb"></tbody>
       <tfoot><tr>
         <td>Total</td>
@@ -554,9 +554,13 @@ function bKPI(){
   if(fdelta){fdelta.textContent=prev!==null?(deltaSign+delta.toFixed(1)+'%'):'—';fdelta.className=prev!==null?dCl(tot,totPrev):'';}
   if(fytd){fytd.textContent=F(ytd);fytd.style.cursor='pointer';fytd.onclick=()=>oD(fytd,'Total YTD','Jan–'+MS[mi]+' '+cY,ytd,yT);}
 
-  // Update section bar
+  // Update section bar + column headers
   const sbt=document.getElementById('sbt');
   if(sbt)sbt.textContent=(cmp?'Expense by Category':'All Categories & Subcategories')+' — '+ML[mi]+' '+cY;
+  const thCur=document.getElementById('th-cur');
+  const thPrev=document.getElementById('th-prev');
+  if(thCur)thCur.textContent=ML[mi];
+  if(thPrev)thPrev.textContent=prev!==null?ML[prev]:'—';
 }
 
 // BUILD MONTHLY
@@ -569,15 +573,20 @@ function bM(){
   CATS.forEach(cat=>{
     const cur=gCV(cat,mi,mode),feb=prev!==null?gCV(cat,prev,mode):0;
     const ytd=cat.subs.reduce((s,sub)=>{const v=mode==='accrual'?sub.a:sub.c;return s+v.slice(0,mi+1).reduce((a,x)=>a+x,0);},0);
-    h+=`<tr class="cr${cat.hl?' hl':''}"><td onclick="oCat(this,'${cat.k}',${mi})">${cat.k}</td><td onclick="oCat(this,'${cat.k}',${mi})">${F(cur)}</td><td>${prev!==null?F(feb):'—'}</td><td class="${dCl(cur,feb)}">${pct(cur,feb)}</td><td class="yc" onclick="oCatY(this,'${cat.k}',${mi})">${F(ytd)}</td></tr>`;
+    // Skip categories with no data in current month AND no YTD
+    if(!cur&&!ytd&&!feb)return;
+    const cdsp=catDisplay(cat.k);
+    h+=`<tr class="cr${cat.hl?' hl':''}"><td onclick="oCat(this,'${cat.k}',${mi})">${cdsp}</td><td onclick="oCat(this,'${cat.k}',${mi})">${F(cur)}</td><td>${prev!==null?F(feb):'—'}</td><td class="${dCl(cur,feb)}">${pct(cur,feb)}</td><td class="yc" onclick="oCatY(this,'${cat.k}',${mi})">${F(ytd)}</td></tr>`;
     if(!cmp){
       cat.subs.forEach(sub=>{
         const sv=gV(sub,mi),sfv=prev!==null?gV(sub,prev):0;
         const sytd=(mode==='accrual'?sub.a:sub.c).slice(0,mi+1).reduce((a,v)=>a+v,0);
+        // Skip subs with no data anywhere
+        if(!sv&&!sfv&&!sytd)return;
         const sid=`s_${cat.k}_${sub.n}`.replace(/\W/g,'_');
         const isA=aSub===sid;
-        const tags=(sub.ia?`<span class="at">accrual</span>`:'')+(sub.n.includes('Chase')?`<span class="ut">unclassified</span>`:'')+(sub.n.includes('OpenAI')?`<span class="nt">new</span>`:'');
-        h+=`<tr class="sr${isA?' asr':''}" id="${sid}" onclick="sSub(this,'${cat.k}','${sub.n}',${mi},'${sid}')"><td>${sub.n}${tags}</td><td>${F(sv)}</td><td>${prev!==null?F(sfv):'—'}</td><td class="${dCl(sv,sfv)}">${pct(sv,sfv)}</td><td class="yc" onclick="event.stopPropagation();oSubY(this,'${cat.k}','${sub.n}',${mi})">${F(sytd)}</td></tr>`;
+        const tags=(sub.ia?`<span class="at">accrual</span>`:'');
+        h+=`<tr class="sr${isA?' asr':''}" id="${sid}" onclick="sSub(this,'${cat.k}','${sub.n}',${mi},'${sid}')"><td>${sub.n}${tags}</td><td>${sv?F(sv):'—'}</td><td>${prev!==null?(sfv?F(sfv):'—'):'—'}</td><td class="${dCl(sv,sfv)}">${pct(sv,sfv)}</td><td class="yc" onclick="event.stopPropagation();oSubY(this,'${cat.k}','${sub.n}',${mi})">${sytd?F(sytd):'—'}</td></tr>`;
       });
     }
   });
@@ -657,7 +666,7 @@ function bA(){
             // Month header row
             rows+=`<div class="avmonth"><span class="avml">${ML[mIdx]} ${cY}</span><span class="avmv">${F(mTotal)}</span></div>`;
             // Individual transactions
-            rows+=txns.map(t=>`<div class="avrow"><div class="avd">${t.d}</div><div style="flex:1;min-width:0"><div class="avn">${t.v}${t.p?'<span class="ab-badge">Accrual</span>':''}</div><div class="avs">${t.s}</div></div><div class="ava${t.p?' pj':''}">${F(t.m)}</div></div>`).join('');
+            rows+=txns.map(t=>`<div class="avrow"><div class="avd">${t.d}</div><div style="flex:1;min-width:0;overflow:hidden"><div class="avn">${t.v}${t.p?'<span class="ab-badge">Accrual</span>':''}</div><div class="avs" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.s}</div></div><div class="ava${t.p?' pj':''}">${F(t.m)}</div></div>`).join('');
           });
           const txCount=availMonths.reduce((s,mi)=>s+(sub.tx[mi]||[]).length,0);
           tbody+=`<tr class="avr"><td colspan="14"><div class="avi">${rows}</div></td></tr>`;
@@ -905,30 +914,52 @@ function processData(monthSet,txnsByMonthCatSub){
       const cashVals=new Array(12).fill(0);
       const accVals=new Array(12).fill(0);
       const txnMap={};
-      let isAcc=0;
+      // Separate accrual txns from regular cash txns
+      // accTxns: only those with t.p=1 (tipo_pago=Accrual)
+      // cashTxns: all others
+      const accTxnsByMonth={};
       sortedMonths.forEach(function(m){
         const txns=((txnsByMonthCatSub[m.ml]||{})[catKey]||{})[subName]||[];
-        const total=txns.reduce(function(s,t){return s+t.m;},0);
-        cashVals[m.mi]+=total;
-        if(txns.some(function(t){return t.p;}))isAcc=1;
+        const cashOnly=txns.filter(function(t){return !t.p;});
+        const accOnly=txns.filter(function(t){return t.p;});
+        const cashTotal=cashOnly.reduce(function(s,t){return s+t.m;},0);
+        cashVals[m.mi]+=cashTotal;
+        // Store accrual txns separately for distribution
+        if(accOnly.length)accTxnsByMonth[m.mi]=accOnly;
+        // txnMap for Cash view: all txns (cash+accrual shown as paid)
         if(txns.length)txnMap[m.mi]=txns;
       });
+      // Start accVals as copy of cashVals (cash transactions stay as-is)
       for(let mi=0;mi<12;mi++)accVals[mi]=cashVals[mi];
-      if(isAcc){
-        const paidMi=cashVals.findIndex(function(v){return v>0;});
-        if(paidMi>=0){
-          const total=cashVals[paidMi];
-          const monthly=Math.round(total/12);
-          // Mes de pago: reemplazar total por su parte proporcional
-          accVals[paidMi]=monthly;
-          txnMap[paidMi]=(txnMap[paidMi]||[]).map(function(t){return Object.assign({},t,{m:monthly,p:1,s:t.s+' (accrual: $'+total.toLocaleString()+' ÷ 12)'});});
-          // Meses restantes: distribuir
+      // For each month that has accrual txns, distribute their total across 12 months
+      const hasAcc=Object.keys(accTxnsByMonth).length>0;
+      if(hasAcc){
+        Object.keys(accTxnsByMonth).forEach(function(paidMiStr){
+          const paidMi=parseInt(paidMiStr);
+          const accTxns=accTxnsByMonth[paidMi];
+          const accTotal=accTxns.reduce(function(s,t){return s+t.m;},0);
+          if(!accTotal)return;
+          const monthly=Math.round(accTotal/12);
+          // Month of payment: add proportional share (not the full amount)
+          accVals[paidMi]+=monthly;
+          // Future months: add proportional share
           for(let mi=paidMi+1;mi<12;mi++){
-            if(!accVals[mi]){accVals[mi]=monthly;txnMap[mi]=[{d:'Accrual',v:subName,s:'$'+total.toLocaleString()+' ÷ 12 months · origin: '+MS[paidMi],m:monthly,p:1}];}
+            accVals[mi]+=monthly;
           }
-        }
+          // Update txnMap for accrual view:
+          // paid month: replace accrual txns with proportional version
+          const existingCash=(txnMap[paidMi]||[]).filter(function(t){return !t.p;});
+          const accrualTxn={d:accTxns[0].d,v:subName,s:'$'+Math.round(accTotal).toLocaleString()+' ÷ 12 months (paid '+MS[paidMi]+')',m:monthly,p:1};
+          txnMap[paidMi]=existingCash.concat([accrualTxn]);
+          // future months: accrual entry only
+          for(let mi=paidMi+1;mi<12;mi++){
+            const existing=txnMap[mi]?txnMap[mi].filter(function(t){return !t.p;}):[];
+            existing.push({d:'Accrual',v:subName,s:'$'+Math.round(accTotal).toLocaleString()+' ÷ 12 · paid '+MS[paidMi],m:monthly,p:1});
+            txnMap[mi]=existing;
+          }
+        });
       }
-      return{n:subName,c:cashVals,a:accVals,ia:isAcc,tx:txnMap};
+      return{n:subName,c:cashVals,a:accVals,ia:hasAcc,tx:txnMap};
     });
     CATS.push({k:catKey,hl:ci===0?1:0,subs:subs});
   });
