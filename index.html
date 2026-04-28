@@ -68,24 +68,24 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 
 /* MONTHLY TABLE */
 .ts{flex:1;overflow-y:auto}
-.mt{width:100%;border-collapse:collapse}
-.mt thead th{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);font-weight:400;text-align:right;padding:7px 14px 9px;border-bottom:.5px solid var(--bs);background:var(--sur);position:sticky;top:0;z-index:2;white-space:nowrap}
-.mt thead th:first-child{text-align:left;padding-left:28px}
-.mt thead th.yh{border-left:.5px solid var(--b2);color:var(--txt);font-weight:500}
-.mt tr.cr td{font-size:10px;padding:6px 14px;border-bottom:.5px solid var(--brd);background:var(--sur);color:#3a3a38;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s}
-.mt tr.cr td:first-child{text-align:left;padding-left:28px;color:#3a3a38;font-weight:500}
+.mt{width:100%;border-collapse:collapse;table-layout:fixed}
+.mt thead th{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);font-weight:400;text-align:right;padding:7px 10px 9px;border-bottom:.5px solid var(--bs);background:var(--sur);position:sticky;top:0;z-index:2;white-space:nowrap;width:130px}
+.mt thead th:first-child{text-align:left;padding-left:28px;width:220px}
+.mt thead th.yh{border-left:.5px solid var(--b2);color:var(--txt);font-weight:500;width:140px}
+.mt tr.cr td{font-size:10px;padding:5px 10px;border-bottom:.5px solid var(--brd);background:var(--sur);color:#3a3a38;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis}
+.mt tr.cr td:first-child{text-align:left;padding-left:16px;color:#3a3a38;font-weight:500;overflow:hidden;text-overflow:ellipsis}
 .mt tr.cr:hover td{background:var(--rhi)}
 .mt tr.cr.hl td{background:var(--rhi)}.mt tr.cr.hl:hover td{background:#eeebe5}
 .mt td.yc{border-left:.5px solid var(--b2);font-weight:500;color:var(--txt);cursor:default}
 /* SUB ROWS — no arrow, panel on click */
-.mt tr.sr td{font-size:9px;padding:5px 14px;border-bottom:.5px solid var(--brd);background:var(--bg);color:#5a5a58;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s}
-.mt tr.sr td:first-child{text-align:left;padding-left:38px;color:#5a5a58;font-weight:300;border-left:2px solid transparent;transition:border-color .12s}
+.mt tr.sr td{font-size:9px;padding:4px 10px;border-bottom:.5px solid var(--brd);background:var(--bg);color:#5a5a58;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis}
+.mt tr.sr td:first-child{text-align:left;padding-left:26px;color:#5a5a58;font-weight:300;border-left:2px solid transparent;transition:border-color .12s;overflow:hidden;text-overflow:ellipsis}
 .mt tr.sr:hover td{background:#f0ede8}
 .mt tr.sr:hover td:first-child{color:#3a3a38}
 .mt tr.sr.asr td{background:#faf6ee}
 .mt tr.sr.asr td:first-child{border-left:2px solid var(--bs);color:#3a3a38;font-weight:400;padding-left:36px}
-.mt tfoot td{font-size:10px;padding:9px 14px;border-top:.5px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;position:sticky;bottom:0}
-.mt tfoot td:first-child{padding-left:28px}
+.mt tfoot td{font-size:10px;padding:6px 10px;border-top:.5px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;position:sticky;bottom:0}
+.mt tfoot td:first-child{padding-left:16px}
 .mt tfoot td.yc{border-left:.5px solid var(--b2)}
 /* signal */
 .n3{color:var(--neg)!important;font-weight:500;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
@@ -147,6 +147,17 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .ava.pj{color:var(--ptx);font-style:italic}
 .at2 tr.avt td{background:#e8e4da!important;border-bottom:.5px solid var(--b2)!important;cursor:default!important;padding:0!important}
 .avti{padding:5px 14px 5px 48px;display:flex;justify-content:space-between;font-size:8px;color:var(--t2)}
+/* Vendor x Month table */
+.vmt{width:100%;border-collapse:collapse;font-size:8.5px}
+.vmt th{font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-weight:400;text-align:right;padding:5px 8px;border-bottom:.5px solid var(--b2);white-space:nowrap}
+.vmt th:first-child{text-align:left;padding-left:0;width:200px}
+.vmt td{padding:5px 8px;border-bottom:.5px solid var(--brd);text-align:right;color:var(--t2);white-space:nowrap}
+.vmt td:first-child{text-align:left;padding-left:0;color:var(--txt);font-weight:400;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+.vmt tr:last-child td{border-bottom:none}
+.vmt td.vm-tot{font-weight:500;color:var(--txt);border-left:.5px solid var(--b2)}
+.vmt tr.vm-footer td{font-weight:500;color:var(--txt);border-top:.5px solid var(--b2);background:var(--rhi)}
+.vmt tr.vm-footer td:first-child{color:var(--t3);font-size:7px;letter-spacing:.1em;text-transform:uppercase}
+.vmt td.vm-zero{color:var(--brd)}
 .avtv{font-family:var(--ser);font-size:13px;color:var(--txt);font-weight:300}
 .at2 tfoot td{font-size:9px;padding:7px 5px;border-top:.5px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);position:sticky;bottom:0;cursor:default}
 .at2 tfoot td:first-child{padding-left:28px}
@@ -229,18 +240,6 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
   <div class="wm">MILLION</div>
   <div class="hdr-r">
     <button class="ai-btn" onclick="tAI()">AI Analysis</button>
-    <div style="position:relative">
-      <button class="pb" id="pb" onclick="tDD()">
-        <div class="pb-in">
-          <span class="pb-s">Period</span>
-          <span class="pb-m" id="pbm">March 2026 <span class="pb-a">▾</span></span>
-        </div>
-      </button>
-      <div class="dd" id="dd">
-        <div class="dd-yrs" id="ddy"></div>
-        <div class="dd-ms" id="ddm"></div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -256,25 +255,28 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
         <button class="tb" id="ta" onclick="sM('accrual')">Accrual</button>
       </div>
       <div class="csep"></div>
+      <button class="fy-btn" onclick="gFY()">Full Year →</button>
+      <div class="csep"></div>
       <button class="cmp" id="cb" onclick="tCmp()">Compact</button>
     </div>
   </div>
   <!-- HERO centrado con Full Year integrado -->
-  <div id="hero" style="background:var(--sur);padding:10px 28px 8px;text-align:center;border-bottom:.5px solid var(--brd);flex-shrink:0;position:relative">
+  <div id="hero" style="background:var(--sur);padding:12px 28px 10px;text-align:center;border-bottom:.5px solid var(--brd);flex-shrink:0;position:relative">
     <div style="font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--t3);margin-bottom:4px">Monthly Expense Summary</div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:14px">
-      <div id="hero-title" style="font-family:var(--ser);font-size:26px;font-weight:300;font-style:italic;color:var(--txt);line-height:1.1;letter-spacing:.01em">March 2026</div>
-      <button class="fy-btn" onclick="gFY()" style="font-size:7px;letter-spacing:.14em;margin-top:2px">Full Year →</button>
+    <div id="hero-title" onclick="tDD()" style="font-family:var(--ser);font-size:28px;font-weight:300;font-style:italic;color:var(--txt);line-height:1.1;cursor:pointer;display:inline-flex;align-items:center;gap:8px">March 2026 <span class="pb-a" style="font-size:12px;color:var(--t3);font-style:normal;font-family:var(--san)">▾</span></div>
+    <div class="dd" id="dd" style="left:50%;transform:translateX(-50%);top:100%">
+      <div class="dd-yrs" id="ddy"></div>
+      <div class="dd-ms" id="ddm"></div>
     </div>
     <div style="width:24px;height:1px;background:var(--txt);margin:6px auto"></div>
-    <div style="display:flex;justify-content:center;align-items:center;gap:14px;padding-bottom:8px;font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);flex-wrap:wrap">
-      <span>Entity <span id="hero-entity" style="color:var(--txt);font-weight:300">MRI · Mausefl</span></span>
+    <div style="display:flex;justify-content:center;align-items:center;gap:14px;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);flex-wrap:wrap">
+      <span>Entity <span id="hero-entity" style="color:var(--txt)">MRI · Mausefl</span></span>
       <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
-      <span>Basis <span id="hero-basis" style="color:var(--txt);font-weight:300">Cash</span></span>
+      <span>Basis <span id="hero-basis" style="color:var(--txt)">Cash</span></span>
       <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
-      <span>Period <span id="hero-period" style="color:var(--txt);font-weight:300">Mar 1 – Mar 31, 2026</span></span>
+      <span>Period <span id="hero-period" style="color:var(--txt)">Mar 1 – Mar 31, 2026</span></span>
       <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
-      <span>Refreshed <span id="hero-refreshed" style="color:var(--txt);font-weight:300">—</span></span>
+      <span>Refreshed <span id="hero-refreshed" style="color:var(--txt)">—</span></span>
     </div>
   </div>
 
@@ -418,20 +420,19 @@ function bDDM(){
 function sY(y){cY=y;bDDM();}
 function sMi(i){
   cMi=i;
-  document.getElementById('pbm').innerHTML=`${ML[i]} ${cY} <span class="pb-a">▾</span>`;
-  document.getElementById('hero-title').textContent=`${ML[i]} ${cY}`;
+  document.getElementById('hero-title').innerHTML=`${ML[i]} ${cY} <span class="pb-a" style="font-size:12px;color:var(--t3);font-style:normal;font-family:var(--san)">▾</span>`;
   document.getElementById('hero-period').textContent=`${MS[i]} 1 – ${MS[i]} 31, ${cY}`;
   document.getElementById('hero-basis').textContent=mode==='accrual'?'Accrual':'Cash';
   cDD();
   if(document.getElementById('va').classList.contains('on'))gMo();
   bM();
 }
-function tDD(){const d=document.getElementById('dd'),b=document.getElementById('pb');const o=d.classList.contains('open');d.classList.toggle('open',!o);b.classList.toggle('open',!o);}
-function cDD(){document.getElementById('dd').classList.remove('open');document.getElementById('pb').classList.remove('open');}
-document.addEventListener('click',e=>{if(!e.target.closest('.hdr-r'))cDD();});
+function tDD(){const d=document.getElementById('dd');const o=d.classList.contains('open');d.classList.toggle('open',!o);}
+function cDD(){document.getElementById('dd').classList.remove('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('#hero')&&!e.target.closest('#dd'))cDD();});
 
 // VIEWS
-function gFY(){document.getElementById('vm').classList.remove('on');document.getElementById('va').classList.add('on');document.getElementById('pbm').innerHTML=`Full Year ${cY} <span class="pb-a">▾</span>`;bA();}
+function gFY(){document.getElementById('vm').classList.remove('on');document.getElementById('va').classList.add('on');bA();}
 function gMo(){document.getElementById('va').classList.remove('on');document.getElementById('vm').classList.add('on');}
 
 // MODE
@@ -654,23 +655,44 @@ function bA(){
         const at=sub.ia&&sp?`<span class="at">accrual</span>`:'';
         tbody+=`<tr class="as${isO?' ao':''}" id="${sid}" onclick="tAS('${cat.k}','${sub.n}','${sid}')"><td><span class="ex${isO?' op':''}">▶</span>${sub.n}${at}</td>${sc}<td class="yc">${F(sy)}</td></tr>`;
         if(isO){
-          // Build month-by-month breakdown for this subcategory
+          // Build vendor × month table
           const availMonths=Object.keys(sub.tx).map(Number).sort((a,b)=>a-b);
-          let rows='';
-          let grandTotal=0;
+          // Collect all unique vendors across all months
+          const vendorMap={};
           availMonths.forEach(mIdx=>{
-            const txns=sub.tx[mIdx]||[];
-            const mTotal=txns.reduce((s,t)=>s+t.m,0);
-            if(!mTotal)return;
-            grandTotal+=mTotal;
-            // Month header row
-            rows+=`<div class="avmonth"><span class="avml">${ML[mIdx]} ${cY}</span><span class="avmv">${F(mTotal)}</span></div>`;
-            // Individual transactions
-            rows+=txns.map(t=>`<div class="avrow"><div class="avd">${t.d}</div><div style="flex:1;min-width:0;overflow:hidden"><div class="avn">${t.v}${t.p?'<span class="ab-badge">Accrual</span>':''}</div><div class="avs" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.s}</div></div><div class="ava${t.p?' pj':''}">${F(t.m)}</div></div>`).join('');
+            (sub.tx[mIdx]||[]).forEach(t=>{
+              const vk=t.v||sub.n;
+              if(!vendorMap[vk])vendorMap[vk]=new Array(12).fill(0);
+              vendorMap[vk][mIdx]+=t.m;
+            });
           });
-          const txCount=availMonths.reduce((s,mi)=>s+(sub.tx[mi]||[]).length,0);
-          tbody+=`<tr class="avr"><td colspan="14"><div class="avi">${rows}</div></td></tr>`;
-          tbody+=`<tr class="avt"><td colspan="14"><div class="avti"><span>Total · ${txCount} transaction${txCount!==1?'s':''}</span><span class="avtv">${F(grandTotal)}</span></div></td></tr>`;
+          const vendors=Object.keys(vendorMap);
+          if(!vendors.length){tbody+=`<tr class="avr"><td colspan="14"><div class="avi" style="padding:8px 28px;font-size:8px;color:var(--t3)">No transactions</div></td></tr>`;return;}
+          // Header row: vendor | jan | feb | ... | total
+          let tbl=`<table class="vmt"><thead><tr><th>Vendor</th>`;
+          availMonths.forEach(mi=>tbl+=`<th>${MS[mi]}</th>`);
+          tbl+=`<th class="vm-tot">Total</th></tr></thead><tbody>`;
+          // Month column totals
+          const colTots=new Array(12).fill(0);
+          let grandTotal=0;
+          vendors.forEach(vk=>{
+            const vRow=vendorMap[vk];
+            const vTot=vRow.reduce((s,v)=>s+v,0);
+            grandTotal+=vTot;
+            tbl+=`<tr><td title="${vk}">${vk}</td>`;
+            availMonths.forEach(mi=>{
+              const v=vRow[mi];
+              colTots[mi]+=v;
+              tbl+=`<td class="${v?'':'vm-zero'}">${v?F(v):'—'}</td>`;
+            });
+            tbl+=`<td class="vm-tot">${F(vTot)}</td></tr>`;
+          });
+          // Footer totals row
+          tbl+=`<tr class="vm-footer"><td>Total</td>`;
+          availMonths.forEach(mi=>tbl+=`<td>${colTots[mi]?F(colTots[mi]):'—'}</td>`);
+          tbl+=`<td class="vm-tot">${F(grandTotal)}</td></tr>`;
+          tbl+=`</tbody></table>`;
+          tbody+=`<tr class="avr"><td colspan="14"><div class="avi" style="padding:8px 28px 8px 48px;overflow-x:auto">${tbl}</div></td></tr>`;
         }
       });
     }
@@ -967,7 +989,7 @@ function processData(monthSet,txnsByMonthCatSub){
   // Set to latest month
   const latest=sortedMonths[sortedMonths.length-1];
   cY=String(latest.yr);cMi=latest.mi;
-  document.getElementById('pbm').innerHTML=ML[cMi]+' '+cY+' <span class="pb-a">▾</span>';
+  document.getElementById('hero-title').innerHTML=ML[cMi]+' '+cY+' <span class="pb-a" style="font-size:12px;color:var(--t3);font-style:normal;font-family:var(--san)">▾</span>';
   document.getElementById('hero-title').textContent=ML[cMi]+' '+cY;
   document.getElementById('hero-period').textContent=MS[cMi]+' 1 – '+MS[cMi]+' 31, '+cY;
   window.aT=CATS.flatMap(function(c){return c.subs.flatMap(function(s){return s.tx[cMi]||[];});});
