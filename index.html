@@ -89,11 +89,11 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .mt tfoot td.yc{border-left:.5px solid var(--b2)}
 /* signal */
 .n3{color:var(--neg)!important;font-weight:500;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
-.n1p{color:var(--pos)!important;font-weight:400}.n1n{color:var(--neg)!important;font-weight:400}.nn{color:var(--t3)!important}
+.n1p{color:var(--pos)!important;font-weight:400}.n1n{color:var(--neg)!important;font-weight:400}.nn{color:var(--t3)!important}.neg-val{color:var(--neg);font-weight:500}
 .mt tr.cr td.n3,.mt tr.sr td.n3,.at2 tr.ac td.n3,.at2 tr.as td.n3{color:var(--neg)!important;font-weight:500}
 .mt tr.cr td.n1p,.mt tr.sr td.n1p,.at2 tr.ac td.n1p,.at2 tr.as td.n1p{color:var(--pos)!important}
 .mt tr.cr td.n1n,.mt tr.sr td.n1n,.at2 tr.ac td.n1n,.at2 tr.as td.n1n{color:var(--neg)!important}
-.mt tr.cr td.nn,.mt tr.sr td.nn,.at2 tr.ac td.nn,.at2 tr.as td.nn{color:var(--t3)!important}
+.mt tr.cr td.nn,.mt tr.sr td.nn,.at2 tr.ac td.nn,.at2 tr.as td.nn{color:var(--t3)!important}.neg-val{color:var(--neg);font-weight:500}
 .at{font-size:6px;letter-spacing:.08em;color:var(--ptx);margin-left:5px}
 .nt{font-size:7px;color:var(--neg);font-style:italic;margin-left:5px}
 .ut{font-size:7px;color:var(--neg);font-style:italic;margin-left:5px}
@@ -387,7 +387,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 </div>
 
 <script>
-const F=n=>n?'$'+Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0}):'—';
+const F=n=>!n?'—':n<0?`<span class="neg-val">-$${Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0})}</span>`:'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
 const ML=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};
@@ -547,10 +547,10 @@ function bKPI(){
   const fprev=document.getElementById('ft-prev');
   const fdelta=document.getElementById('ft-delta');
   const fytd=document.getElementById('ft-ytd');
-  if(ftot){ftot.textContent=F(tot);ftot.style.cursor='pointer';ftot.onclick=()=>oD(ftot,'Total',ML[mi]+' '+cY,tot,kA);}
-  if(fprev)fprev.textContent=prev!==null?F(totPrev):'—';
+  if(ftot){ftot.innerHTML=F(tot);ftot.style.cursor='pointer';ftot.onclick=()=>oD(ftot,'Total',ML[mi]+' '+cY,tot,kA);}
+  if(fprev)fprev.innerHTML=prev!==null?F(totPrev):'—';
   if(fdelta){fdelta.textContent=prev!==null?(deltaSign+delta.toFixed(1)+'%'):'—';fdelta.className=prev!==null?dCl(tot,totPrev):'';}
-  if(fytd){fytd.textContent=F(ytd);fytd.style.cursor='pointer';fytd.onclick=()=>oD(fytd,'Total YTD','Jan–'+MS[mi]+' '+cY,ytd,yT);}
+  if(fytd){fytd.innerHTML=F(ytd);fytd.style.cursor='pointer';fytd.onclick=()=>oD(fytd,'Total YTD','Jan–'+MS[mi]+' '+cY,ytd,yT);}
 
   // Update section bar + column headers
   const sbt=document.getElementById('sbt');
@@ -610,7 +610,7 @@ function oD(el,lbl,per,tot,txns){
   document.getElementById('pl2').textContent=lbl;
   document.getElementById('pt').textContent=per;
   document.getElementById('pp').textContent=txns.length+' transaction'+(txns.length!==1?'s':'');
-  document.getElementById('pv').textContent=F(tot);
+  document.getElementById('pv').innerHTML=F(tot);
   document.getElementById('pb3').innerHTML=(txns||[]).map(t=>`<div class="tx"><div class="txd">${t.d}</div><div class="txi"><div class="txv">${t.v}${t.p?'<span class="ab-badge">Accrual</span>':''}</div><div class="txs">${t.s}</div></div><div class="txa${t.p?' pj':''}">${F(t.m)}</div></div>`).join('');
   document.getElementById('dp').classList.add('op');
 }
