@@ -39,7 +39,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .dm.has{color:var(--t2)}.dm.has:hover{color:var(--txt);background:var(--rhi)}.dm.on{background:var(--txt);color:#fff}.dm.no{color:#e0ddd7;cursor:default}
 
 /* CONTROLS */
-.ctrl{background:var(--sur);border-bottom:.5px solid var(--brd);padding:0 28px;height:38px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.ctrl{background:var(--sur);border-bottom:.5px solid var(--brd);padding:0 28px;height:42px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .ctrl-l{display:flex;align-items:center;gap:12px}
 .tog{display:flex;border:.5px solid var(--b2)}
 .tb{font-size:7px;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;background:none;border:none;border-right:.5px solid var(--b2);cursor:pointer;color:var(--t3);transition:all .12s}
@@ -51,34 +51,34 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .cmp:hover{border-color:var(--txt);color:var(--txt)}.cmp.on{background:var(--txt);color:#fff;border-color:var(--txt)}
 
 /* KPIS */
-.kpis{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:.5px solid var(--brd);background:var(--sur);flex-shrink:0}
-.kpi{padding:7px 0 7px 20px;border-right:.5px solid var(--brd);cursor:pointer;transition:background .1s}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:.5px solid var(--brd);background:var(--sur);flex-shrink:0;max-height:52px}
+.kpi{padding:3px 0 3px 12px;border-right:.5px solid var(--brd);cursor:pointer;transition:background .1s}
 .kpi:last-child{border-right:none}.kpi:hover{background:var(--rhi)}.kpi.on{background:#f0ede8}
-.kl{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.kl{font-size:6.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:2px}
 .kr{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
-.kv{font-family:var(--ser);font-size:17px;font-weight:300;color:var(--txt);line-height:1}
+.kv{font-family:var(--ser);font-size:13px;font-weight:300;color:var(--txt);line-height:1}
 .kd{font-size:9px}.kd.ng{color:var(--neg);font-weight:500}.kd.ps{color:var(--pos)}.kd.nu{color:var(--t3);display:block;margin-top:3px}
 
 /* SEC BAR */
-.sb{padding:5px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--bs);background:var(--sur);flex-shrink:0}
+.sb{padding:3px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--bs);background:var(--sur);flex-shrink:0}
 .sb-t{font-size:7px;letter-spacing:.22em;text-transform:uppercase;color:var(--t2)}
 .sb-a{font-family:var(--ser);font-size:11px;font-style:italic;color:var(--neg)}
-.hint{padding:4px 28px;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);border-bottom:.5px solid var(--brd);background:var(--bg);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.hint{padding:2px 28px;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);border-bottom:.5px solid var(--brd);background:var(--bg);display:flex;align-items:center;gap:5px;flex-shrink:0}
 .hd{width:3px;height:3px;border:.5px solid var(--t3);border-radius:50%;flex-shrink:0}
 
 /* MONTHLY TABLE */
-.ts{flex:1;overflow-y:auto}
-.mt{width:100%;border-collapse:collapse;table-layout:fixed}
-.mt thead th{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);font-weight:400;text-align:right;padding:7px 10px 9px;border-bottom:.5px solid var(--bs);background:var(--sur);position:sticky;top:0;z-index:2;white-space:nowrap;width:130px}
-.mt thead th:first-child{text-align:left;padding-left:28px;width:220px}
-.mt thead th.yh{border-left:.5px solid var(--b2);color:var(--txt);font-weight:500;width:140px}
-.mt tr.cr td{font-size:10px;padding:5px 10px;border-bottom:.5px solid var(--brd);background:var(--sur);color:#3a3a38;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis}
+.ts{flex:1;overflow-y:auto;overflow-x:auto}
+.mt{width:100%;border-collapse:collapse}
+.mt thead th{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);font-weight:400;text-align:right;padding:7px 14px 9px;border-bottom:.5px solid var(--bs);background:var(--sur);position:sticky;top:0;z-index:2;white-space:nowrap;min-width:110px}
+.mt thead th:first-child{text-align:left;padding-left:16px}
+.mt thead th.yh{border-left:.5px solid var(--b2);color:var(--txt);font-weight:500;min-width:120px}
+.mt tr.cr td{font-size:10px;padding:5px 14px;border-bottom:.5px solid var(--brd);background:var(--sur);color:#3a3a38;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis}
 .mt tr.cr td:first-child{text-align:left;padding-left:16px;color:#3a3a38;font-weight:500;overflow:hidden;text-overflow:ellipsis}
 .mt tr.cr:hover td{background:var(--rhi)}
 .mt tr.cr.hl td{background:var(--rhi)}.mt tr.cr.hl:hover td{background:#eeebe5}
 .mt td.yc{border-left:.5px solid var(--b2);font-weight:500;color:var(--txt);cursor:default}
 /* SUB ROWS — no arrow, panel on click */
-.mt tr.sr td{font-size:9px;padding:4px 10px;border-bottom:.5px solid var(--brd);background:var(--bg);color:#5a5a58;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis}
+.mt tr.sr td{font-size:9px;padding:4px 14px;border-bottom:.5px solid var(--brd);background:var(--bg);color:#5a5a58;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis}
 .mt tr.sr td:first-child{text-align:left;padding-left:26px;color:#5a5a58;font-weight:300;border-left:2px solid transparent;transition:border-color .12s;overflow:hidden;text-overflow:ellipsis}
 .mt tr.sr:hover td{background:#f0ede8}
 .mt tr.sr:hover td:first-child{color:#3a3a38}
@@ -248,7 +248,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 
 <!-- MONTHLY VIEW -->
 <div class="view on" id="vm">
-  <div class="ctrl">
+  <div class="ctrl" style="position:relative">
     <div class="ctrl-l">
       <div class="tog">
         <button class="tb on" id="tc" onclick="sM('cash')">Cash</button>
@@ -259,27 +259,22 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
       <div class="csep"></div>
       <button class="cmp" id="cb" onclick="tCmp()">Compact</button>
     </div>
-  </div>
-  <!-- HERO centrado con Full Year integrado -->
-  <div id="hero" style="background:var(--sur);padding:12px 28px 10px;text-align:center;border-bottom:.5px solid var(--brd);flex-shrink:0;position:relative">
-    <div style="font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--t3);margin-bottom:4px">Monthly Expense Summary</div>
-    <div id="hero-title" onclick="tDD()" style="font-family:var(--ser);font-size:28px;font-weight:300;font-style:italic;color:var(--txt);line-height:1.1;cursor:pointer;display:inline-flex;align-items:center;gap:8px">March 2026 <span class="pb-a" style="font-size:12px;color:var(--t3);font-style:normal;font-family:var(--san)">▾</span></div>
-    <div class="dd" id="dd" style="left:50%;transform:translateX(-50%);top:100%">
+    <div id="hero-title" onclick="tDD()" style="position:absolute;left:50%;transform:translateX(-50%);font-family:var(--ser);font-size:26px;font-weight:300;font-style:italic;color:var(--txt);line-height:1;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;top:50%;transform:translate(-50%,-50%)">March 2026 <span class="pb-a" style="font-size:11px;color:var(--t3);font-style:normal;font-family:var(--san)">▾</span></div>
+    <div class="dd" id="dd" style="position:absolute;left:50%;transform:translateX(-50%);top:100%;z-index:50">
       <div class="dd-yrs" id="ddy"></div>
       <div class="dd-ms" id="ddm"></div>
     </div>
-    <div style="width:24px;height:1px;background:var(--txt);margin:6px auto"></div>
-    <div style="display:flex;justify-content:center;align-items:center;gap:14px;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);flex-wrap:wrap">
-      <span>Entity <span id="hero-entity" style="color:var(--txt)">MRI · Mausefl</span></span>
-      <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
-      <span>Basis <span id="hero-basis" style="color:var(--txt)">Cash</span></span>
-      <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
-      <span>Period <span id="hero-period" style="color:var(--txt)">Mar 1 – Mar 31, 2026</span></span>
-      <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
-      <span>Refreshed <span id="hero-refreshed" style="color:var(--txt)">—</span></span>
-    </div>
   </div>
-
+  <!-- HERO centrado con Full Year integrado -->
+    <div id="hero" style="background:var(--sur);padding:2px 28px;border-bottom:.5px solid var(--brd);flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:14px;font-size:6.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--t3)">
+    <span>Entity <span id="hero-entity" style="color:var(--txt)">MRI · Mausefl</span></span>
+    <span style="color:var(--b2)">·</span>
+    <span>Basis <span id="hero-basis" style="color:var(--txt)">Cash</span></span>
+    <span style="color:var(--b2)">·</span>
+    <span>Period <span id="hero-period" style="color:var(--txt)">Mar 1 – Mar 31, 2026</span></span>
+    <span style="color:var(--b2)">·</span>
+    <span>Refreshed <span id="hero-refreshed" style="color:var(--txt)">—</span></span>
+  </div>
   <div class="kpis">
     <div class="kpi"><div class="kl">Total Expenses</div><div class="kr"><div class="kv">—</div></div><div class="kd nu">—</div></div>
     <div class="kpi"><div class="kl">Δ vs Prior Month</div><div class="kr"><div class="kv">—</div></div></div>
