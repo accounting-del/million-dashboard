@@ -261,7 +261,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
       <div class="csep"></div>
       <button class="cmp" id="cb" onclick="tCmp()">Compact</button>
     </div>
-    <div id="hero-title" onclick="tDD()" style="position:absolute;left:50%;transform:translateX(-50%);font-family:var(--ser);font-size:26px;font-weight:300;font-style:italic;color:var(--txt);line-height:1;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;top:50%;transform:translate(-50%,-50%)">March 2026 <span class="pb-a" style="font-size:11px;color:var(--t3);font-style:normal;font-family:var(--san)">▾</span></div>
+    <div id="hero-title" onclick="tDD()" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--ser);font-size:26px;font-weight:300;font-style:italic;color:var(--txt);line-height:1;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;z-index:10">March 2026 <span class="pb-a" style="font-size:11px;color:var(--t3);font-style:normal;font-family:var(--san)">▾</span></div>
     <div class="dd" id="dd" style="position:absolute;left:50%;transform:translateX(-50%);top:100%;z-index:50">
       <div class="dd-yrs" id="ddy"></div>
       <div class="dd-ms" id="ddm"></div>
@@ -672,7 +672,7 @@ function bA(){
               const cl=(mi===CI?'cc':(isP?'pc':'ec'));
               vc+=`<td class="${cl}" style="font-size:8px;color:var(--t2);padding:3px 5px;text-align:right;white-space:nowrap">${v?F(v):'—'}</td>`;
             }
-            tbody+=`<tr style="background:#faf8f4;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
+            tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
           });
         }
       });
