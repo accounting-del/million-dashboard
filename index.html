@@ -156,6 +156,8 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .vmt tr:last-child td{border-bottom:none}
 .vmt td.vm-tot{font-weight:500;color:var(--txt);border-left:.5px solid var(--b2)}
 .vmt tr.vm-footer td{font-weight:500;color:var(--txt);border-top:.5px solid var(--b2);background:var(--rhi)}
+.at2 tr.av-vrow td{background:#faf8f4;border-bottom:.5px solid var(--brd)}
+.at2 tr.av-vrow:last-child td{border-bottom:.5px solid var(--b2)}
 .vmt tr.vm-footer td:first-child{color:var(--t3);font-size:7px;letter-spacing:.1em;text-transform:uppercase}
 .vmt td.vm-zero{color:var(--brd)}
 .avtv{font-family:var(--ser);font-size:13px;color:var(--txt);font-weight:300}
@@ -650,44 +652,28 @@ function bA(){
         const at=sub.ia&&sp?`<span class="at">accrual</span>`:'';
         tbody+=`<tr class="as${isO?' ao':''}" id="${sid}" onclick="tAS('${cat.k}','${sub.n}','${sid}')"><td><span class="ex${isO?' op':''}">▶</span>${sub.n}${at}</td>${sc}<td class="yc">${F(sy)}</td></tr>`;
         if(isO){
-          // Build vendor × month table
-          const availMonths=Object.keys(sub.tx).map(Number).sort((a,b)=>a-b);
-          // Collect all unique vendors across all months
+          // Build vendor totals per month across all months
           const vendorMap={};
-          availMonths.forEach(mIdx=>{
-            (sub.tx[mIdx]||[]).forEach(t=>{
+          for(let mi=0;mi<12;mi++){
+            (sub.tx[mi]||[]).forEach(t=>{
               const vk=t.v||sub.n;
               if(!vendorMap[vk])vendorMap[vk]=new Array(12).fill(0);
-              vendorMap[vk][mIdx]+=t.m;
+              vendorMap[vk][mi]+=t.m;
             });
-          });
-          const vendors=Object.keys(vendorMap);
-          if(!vendors.length){tbody+=`<tr class="avr"><td colspan="14"><div class="avi" style="padding:8px 28px;font-size:8px;color:var(--t3)">No transactions</div></td></tr>`;return;}
-          // Header row: vendor | jan | feb | ... | total
-          let tbl=`<table class="vmt"><thead><tr><th>Vendor</th>`;
-          availMonths.forEach(mi=>tbl+=`<th>${MS[mi]}</th>`);
-          tbl+=`<th class="vm-tot">Total</th></tr></thead><tbody>`;
-          // Month column totals
-          const colTots=new Array(12).fill(0);
-          let grandTotal=0;
-          vendors.forEach(vk=>{
+          }
+          Object.keys(vendorMap).forEach(vk=>{
             const vRow=vendorMap[vk];
             const vTot=vRow.reduce((s,v)=>s+v,0);
-            grandTotal+=vTot;
-            tbl+=`<tr><td title="${vk}">${vk}</td>`;
-            availMonths.forEach(mi=>{
+            if(!vTot)return;
+            let vc='';
+            for(let mi=0;mi<12;mi++){
               const v=vRow[mi];
-              colTots[mi]+=v;
-              tbl+=`<td class="${v?'':'vm-zero'}">${v?F(v):'—'}</td>`;
-            });
-            tbl+=`<td class="vm-tot">${F(vTot)}</td></tr>`;
+              const isP=sp&&mi>CI&&sub.ia&&v>0;
+              const cl=(mi===CI?'cc':(isP?'pc':'ec'));
+              vc+=`<td class="${cl}" style="font-size:8px;color:var(--t2);padding:3px 5px;text-align:right;white-space:nowrap">${v?F(v):'—'}</td>`;
+            }
+            tbody+=`<tr style="background:#faf8f4;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
           });
-          // Footer totals row
-          tbl+=`<tr class="vm-footer"><td>Total</td>`;
-          availMonths.forEach(mi=>tbl+=`<td>${colTots[mi]?F(colTots[mi]):'—'}</td>`);
-          tbl+=`<td class="vm-tot">${F(grandTotal)}</td></tr>`;
-          tbl+=`</tbody></table>`;
-          tbody+=`<tr class="avr"><td colspan="14"><div class="avi" style="padding:8px 28px 8px 48px;overflow-x:auto">${tbl}</div></td></tr>`;
         }
       });
     }
