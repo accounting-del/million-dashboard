@@ -52,18 +52,18 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 
 /* KPIS */
 .kpis{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:.5px solid var(--brd);background:var(--sur);flex-shrink:0}
-.kpi{padding:10px 0 10px 20px;border-right:.5px solid var(--brd);cursor:pointer;transition:background .1s}
+.kpi{padding:7px 0 7px 20px;border-right:.5px solid var(--brd);cursor:pointer;transition:background .1s}
 .kpi:last-child{border-right:none}.kpi:hover{background:var(--rhi)}.kpi.on{background:#f0ede8}
 .kl{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
 .kr{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
-.kv{font-family:var(--ser);font-size:19px;font-weight:300;color:var(--txt);line-height:1}
+.kv{font-family:var(--ser);font-size:17px;font-weight:300;color:var(--txt);line-height:1}
 .kd{font-size:9px}.kd.ng{color:var(--neg);font-weight:500}.kd.ps{color:var(--pos)}.kd.nu{color:var(--t3);display:block;margin-top:3px}
 
 /* SEC BAR */
-.sb{padding:8px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--bs);background:var(--sur);flex-shrink:0}
+.sb{padding:5px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--bs);background:var(--sur);flex-shrink:0}
 .sb-t{font-size:7px;letter-spacing:.22em;text-transform:uppercase;color:var(--t2)}
 .sb-a{font-family:var(--ser);font-size:11px;font-style:italic;color:var(--neg)}
-.hint{padding:6px 28px;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);border-bottom:.5px solid var(--brd);background:var(--bg);display:flex;align-items:center;gap:5px;flex-shrink:0}
+.hint{padding:4px 28px;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);border-bottom:.5px solid var(--brd);background:var(--bg);display:flex;align-items:center;gap:5px;flex-shrink:0}
 .hd{width:3px;height:3px;border:.5px solid var(--t3);border-radius:50%;flex-shrink:0}
 
 /* MONTHLY TABLE */
@@ -260,20 +260,20 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
     </div>
   </div>
   <!-- HERO centrado con Full Year integrado -->
-  <div id="hero" style="background:var(--sur);padding:20px 28px 0;text-align:center;border-bottom:.5px solid var(--brd);flex-shrink:0;position:relative">
-    <div style="font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Monthly Expense Summary</div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:16px">
-      <div id="hero-title" style="font-family:var(--ser);font-size:34px;font-weight:300;font-style:italic;color:var(--txt);line-height:1.15;letter-spacing:.01em">March 2026</div>
-      <button class="fy-btn" onclick="gFY()" style="font-size:7px;letter-spacing:.14em;margin-top:4px">Full Year →</button>
+  <div id="hero" style="background:var(--sur);padding:10px 28px 8px;text-align:center;border-bottom:.5px solid var(--brd);flex-shrink:0;position:relative">
+    <div style="font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--t3);margin-bottom:4px">Monthly Expense Summary</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:14px">
+      <div id="hero-title" style="font-family:var(--ser);font-size:26px;font-weight:300;font-style:italic;color:var(--txt);line-height:1.1;letter-spacing:.01em">March 2026</div>
+      <button class="fy-btn" onclick="gFY()" style="font-size:7px;letter-spacing:.14em;margin-top:2px">Full Year →</button>
     </div>
-    <div style="width:32px;height:1px;background:var(--txt);margin:10px auto"></div>
-    <div style="display:flex;justify-content:center;align-items:center;gap:18px;padding-bottom:16px;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);flex-wrap:wrap">
+    <div style="width:24px;height:1px;background:var(--txt);margin:6px auto"></div>
+    <div style="display:flex;justify-content:center;align-items:center;gap:14px;padding-bottom:8px;font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);flex-wrap:wrap">
       <span>Entity <span id="hero-entity" style="color:var(--txt);font-weight:300">MRI · Mausefl</span></span>
-      <span style="width:1px;height:12px;background:var(--b2);display:inline-block"></span>
+      <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
       <span>Basis <span id="hero-basis" style="color:var(--txt);font-weight:300">Cash</span></span>
-      <span style="width:1px;height:12px;background:var(--b2);display:inline-block"></span>
+      <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
       <span>Period <span id="hero-period" style="color:var(--txt);font-weight:300">Mar 1 – Mar 31, 2026</span></span>
-      <span style="width:1px;height:12px;background:var(--b2);display:inline-block"></span>
+      <span style="width:1px;height:10px;background:var(--b2);display:inline-block"></span>
       <span>Refreshed <span id="hero-refreshed" style="color:var(--txt);font-weight:300">—</span></span>
     </div>
   </div>
