@@ -87,10 +87,10 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 
 /* MONTHLY TABLE */
 .ts{flex:1;overflow-y:auto}
-.mt{width:100%;border-collapse:collapse;table-layout:fixed}
+.mt{width:auto;min-width:580px;border-collapse:collapse;table-layout:fixed}
 .mt thead th{font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-weight:500;text-align:right;padding:7px 14px 9px;border-bottom:1px solid var(--brd);background:#f8faf8;position:sticky;top:0;z-index:2;white-space:nowrap;font-family:var(--cin)}
-.mt thead th:first-child{text-align:left;padding-left:16px;width:22%}
-.mt thead th.yh{border-left:1px solid var(--b2);color:var(--txt);font-weight:500;width:13%}
+.mt thead th:first-child{text-align:left;padding-left:16px;width:180px}
+.mt thead th.yh{border-left:1px solid var(--b2);color:var(--txt);font-weight:500;width:110px}
 .mt tr.cr td{font-size:9px;padding:6px 10px;border-bottom:1px solid var(--brd);background:#f0f5f0;color:#2a3a2a;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis;font-weight:500;font-family:var(--san)}
 .mt tr.cr td:first-child{text-align:left;padding-left:14px;color:#2a3a2a;font-weight:500;font-family:var(--cin);font-size:9px;letter-spacing:.04em}
 .mt tr.cr:hover td{background:#e4ede4}
@@ -104,7 +104,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .mt tr.sr.asr td:first-child{border-left:2px solid var(--hdr);color:var(--txt);font-weight:400;padding-left:28px}
 .mt tfoot td{font-size:10px;padding:7px 14px;border-top:1px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;font-family:var(--num)}
 .mt tfoot td:first-child{padding-left:20px;text-align:left}
-.mt tfoot td.yc{border-left:1px solid var(--b2)}
+.mt tfoot td.yc{border-left:1px solid var(--b2);text-align:right}
 
 /* signal */
 .n3{color:var(--neg)!important;font-weight:500;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
