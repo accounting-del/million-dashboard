@@ -383,7 +383,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
   </div>
   <div class="ts">
     <table class="at2">
-      <thead><tr>
+      <thead id="at2-head"><tr>
         <th>Category / Sub</th>
         <th>Jan</th><th>Feb</th><th class="ch">Mar ●</th>
         <th class="ph">Apr</th><th class="ph">May</th><th class="ph">Jun</th>
@@ -439,7 +439,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 const F=n=>!n?'—':n<0?`<span class="neg-val">-$${Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0})}</span>`:'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
 const ML=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};
+let CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};
 let mode='cash',cmp=false,aMode='cash',aExp={},aSub=null,cY='2026',cMi=2;
 let SALIDAS={};// {month: [{fecha,prov,memo,monto,cat,sub}]}
 const CATS=[];
@@ -674,6 +674,9 @@ function tAC(k){aExp[k]=!aExp[k];const allO=CATS.every(c=>aExp[c.k]);document.ge
 function tAS(ck,sn,sid){aOS=aOS===sid?null:sid;bA();}
 
 function bA(){
+  CI=cMi;
+  const _h=document.getElementById('at2-head');
+  if(_h){const _t=_h.querySelectorAll('th');for(let _i=1;_i<=12;_i++){const _mi=_i-1;if(_mi===cMi){_t[_i].className='ch';_t[_i].textContent=MS[_mi]+' ●';}else if(_t[_i].className==='ch'){_t[_i].className='';_t[_i].textContent=MS[_mi];}}}
   const sp=aMode==='accrual';
   const gV2=(sub,mi)=>sp?(sub.a[mi]||0):(sub.c[mi]||0);
   const gCV2=(cat,mi)=>cat.subs.reduce((s,sub)=>s+gV2(sub,mi),0);
