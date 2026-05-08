@@ -110,6 +110,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .n3{color:var(--neg)!important;font-weight:500;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
 .n1p{color:var(--pos)!important;font-weight:400}.n1n{color:var(--neg)!important;font-weight:400}.nn{color:var(--t3)!important}
 .neg-val{color:var(--neg);font-weight:500}
+.neg-row td{background:#fdf5f5!important}
 .mt tr.cr td.n3,.mt tr.sr td.n3,.at2 tr.ac td.n3,.at2 tr.as td.n3{color:var(--neg)!important;font-weight:500}
 .mt tr.cr td.n1p,.mt tr.sr td.n1p,.at2 tr.ac td.n1p,.at2 tr.as td.n1p{color:var(--pos)!important}
 .mt tr.cr td.n1n,.mt tr.sr td.n1n,.at2 tr.ac td.n1n,.at2 tr.as td.n1n{color:var(--neg)!important}
@@ -138,8 +139,8 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .at2 tr.ac td{font-size:9px;padding:7px 5px;border-bottom:1px solid var(--brd);text-align:right;color:#2a3a2a;white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:500;background:#f0f5f0}
 .at2 tr.ac td:first-child{text-align:left;padding-left:20px;color:#2a3a2a;font-weight:500;background:#f0f5f0;font-family:var(--cin);font-size:8.5px}
 .at2 tr.ac:hover td{background:#e4ede4}
-.at2 td.cc{background:#e8f0e8}.at2 td.pc{background:#f0f0f0;color:var(--ptx);font-style:italic;cursor:pointer}
-.at2 td.pc:hover{background:#e4e4e4}.at2 td.ec{color:#c8d4c8;cursor:default}.at2 td.ec:hover{background:none}
+.at2 td.cc{background:#e8f0e8}.at2 td.pc{background:#f4f7fa;color:#8fa8bc;font-style:italic;cursor:pointer}
+.at2 td.pc:hover{background:#eaf0f6}.at2 td.ec{color:#c8d4c8;cursor:default}.at2 td.ec:hover{background:none}
 .at2 td.yc{border-left:1px solid var(--b2);font-weight:500;color:var(--txt);cursor:default}
 .at2 td.yc:hover{background:none}
 .at2 tr.as td{font-size:9px;padding:6px 5px;border-bottom:1px solid var(--brd);background:#fff;text-align:right;color:var(--t2);white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:300}
@@ -167,7 +168,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .avtv{font-family:var(--num);font-size:13px;color:var(--txt);font-weight:500}
 .at2 tfoot td{font-size:9px;padding:7px 5px;border-top:1px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;text-align:right}
 .at2 tfoot td:first-child{padding-left:20px;text-align:left}
-.at2 tfoot td.pc{background:var(--pbg);color:var(--ptx);font-style:italic}
+.at2 tfoot td.pc{background:#f4f7fa;color:#8fa8bc;font-style:italic}
 .at2 tfoot td.yc{border-left:1px solid var(--b2)}
 .ex{display:inline-block;font-size:8px;color:var(--t3);margin-right:4px;transition:transform .15s;user-select:none}
 .ex.op{transform:rotate(90deg)}
@@ -364,7 +365,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 <div class="view" id="va">
   <div class="leg">
     <div class="li"><div class="ld r"></div>Actual</div>
-    <div class="li"><div class="ld c"></div>Current (Mar)</div>
+    <div class="li"><div class="ld c"></div><span id="leg-cur">Current (Mar)</span></div>
     <div class="li" id="pl"><div class="ld p"></div>Projected — accrual</div>
     <div style="margin-left:auto;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)">Click any cell · subcategory expands inline</div>
   </div>
@@ -675,6 +676,7 @@ function tAS(ck,sn,sid){aOS=aOS===sid?null:sid;bA();}
 
 function bA(){
   CI=cMi;
+  const _lc=document.getElementById('leg-cur');if(_lc)_lc.textContent='Current ('+MS[cMi]+')';
   const _h=document.getElementById('at2-head');
   if(_h){const _t=_h.querySelectorAll('th');for(let _i=1;_i<=12;_i++){const _mi=_i-1;if(_mi===cMi){_t[_i].className='ch';_t[_i].textContent=MS[_mi]+' ●';}else if(_t[_i].className==='ch'){_t[_i].className='';_t[_i].textContent=MS[_mi];}}}
   const sp=aMode==='accrual';
@@ -690,7 +692,7 @@ function bA(){
       const cl=mi===CI?'cc':hp?'pc':'';
       cc+=`<td class="${cl}" onclick="oAC(this,'${cat.k}',${mi},${mi>CI&&hp})">${F(v)}</td>`;
     }
-    tbody+=`<tr class="ac"><td onclick="tAC('${cat.k}')"><span class="ex${isE?' op':''}" id="ex_${cat.k}">▶</span>${catDisplay(cat.k)}</td>${cc}<td class="yc">${F(cy)}</td></tr>`;
+    tbody+=`<tr class="ac${cy<0?' neg-row':''}"><td onclick="tAC('${cat.k}')"><span class="ex${isE?' op':''}" id="ex_${cat.k}">▶</span>${catDisplay(cat.k)}</td>${cc}<td class="yc">${F(cy)}</td></tr>`;
     if(isE){
       cat.subs.forEach(sub=>{
         const sid=`as_${cat.k}_${sub.n}`.replace(/\W/g,'_');
@@ -724,9 +726,9 @@ function bA(){
               const v=vRow[mi];
               const isP=sp&&mi>CI&&sub.ia&&v>0;
               const cl=(mi===CI?'cc':(isP?'pc':'ec'));
-              vc+=`<td class="${cl}" style="font-size:8px;color:var(--t2);padding:3px 5px;text-align:right;white-space:nowrap">${v?F(v):'—'}</td>`;
+              vc+=`<td class="${cl}" style="font-size:9px;color:var(--t2);padding:4px 5px;text-align:right;white-space:nowrap">${v?F(v):'—'}</td>`;
             }
-            tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
+            tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd)"><td style="padding:4px 5px 4px 52px;font-size:9px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:9px;font-weight:500;color:var(--txt);padding:4px 5px;text-align:right">${F(vTot)}</td></tr>`;
           });
         }
       });
