@@ -89,15 +89,15 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .ts{flex:1;overflow-y:auto}
 .mt{width:auto;min-width:580px;border-collapse:collapse;table-layout:fixed}
 .mt thead th{font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-weight:500;text-align:right;padding:7px 14px 9px;border-bottom:1px solid var(--brd);background:#f8faf8;position:sticky;top:0;z-index:2;white-space:nowrap;font-family:var(--cin)}
-.mt thead th:first-child{text-align:left;padding-left:16px;width:180px}
+.mt thead th:first-child{text-align:left;padding-left:16px;width:240px}
 .mt thead th.yh{border-left:1px solid var(--b2);color:var(--txt);font-weight:500;width:110px}
 .mt tr.cr td{font-size:9px;padding:6px 10px;border-bottom:1px solid var(--brd);background:#f0f5f0;color:#2a3a2a;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis;font-weight:500;font-family:var(--san)}
 .mt tr.cr td:first-child{text-align:left;padding-left:14px;color:#2a3a2a;font-weight:500;font-family:var(--cin);font-size:9px;letter-spacing:.04em}
 .mt tr.cr:hover td{background:#e4ede4}
 .mt tr.cr.hl td{background:#f0f5f0}.mt tr.cr.hl:hover td{background:#e4ede4}
 .mt td.yc{border-left:1px solid var(--b2);font-weight:500;color:var(--txt);cursor:default}
-.mt tr.sr td{font-size:9px;padding:5px 10px;border-bottom:1px solid var(--brd);background:#fff;color:var(--t2);text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis;font-weight:300;font-family:var(--san)}
-.mt tr.sr td:first-child{text-align:left;padding-left:22px;color:var(--t2);font-weight:300;border-left:2px solid transparent;transition:border-color .12s;font-family:var(--san)}
+.mt tr.sr td{font-size:9px;padding:5px 10px;border-bottom:1px solid var(--brd);background:#fff;color:var(--txt);text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis;font-weight:400;font-family:var(--san)}
+.mt tr.sr td:first-child{text-align:left;padding-left:22px;color:var(--t2);font-weight:400;border-left:2px solid transparent;transition:border-color .12s;font-family:var(--san)}
 .mt tr.sr:hover td{background:#e8f0e8}
 .mt tr.sr:hover td:first-child{color:var(--txt)}
 .mt tr.sr.asr td{background:#f5f8f5}
@@ -132,18 +132,18 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .ld.r{background:var(--brd);border:1px solid var(--b2)}.ld.c{background:#2a3a2a;opacity:.8}.ld.p{background:#e8e8e8;border:1px solid #c8c8c8}
 .at2{width:100%;border-collapse:collapse;table-layout:fixed}
 .at2 thead th{font-size:7px;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);font-weight:500;text-align:right;padding:6px 5px 8px;border-bottom:1px solid var(--bs);background:#f8faf8;position:sticky;top:0;z-index:2;white-space:nowrap;width:72px;font-family:var(--cin)}
-.at2 thead th:first-child{text-align:left;padding-left:20px;width:180px}
+.at2 thead th:first-child{text-align:left;padding-left:20px;width:240px}
 .at2 thead th.ch{color:var(--txt);font-weight:600}
 .at2 thead th.ph{color:var(--ptx)}
 .at2 thead th.yh{border-left:1px solid var(--b2);color:var(--txt);font-weight:500;width:88px}
 .at2 tr.ac td{font-size:9px;padding:7px 5px;border-bottom:1px solid var(--brd);text-align:right;color:#2a3a2a;white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:500;background:#f0f5f0}
 .at2 tr.ac td:first-child{text-align:left;padding-left:20px;color:#2a3a2a;font-weight:500;background:#f0f5f0;font-family:var(--cin);font-size:8.5px}
 .at2 tr.ac:hover td{background:#e4ede4}
-.at2 td.cc{background:#e8f0e8}.at2 td.pc{background:#f4f7fa;color:#8fa8bc;font-style:italic;cursor:pointer}
-.at2 td.pc:hover{background:#eaf0f6}.at2 td.ec{color:#c8d4c8;cursor:default}.at2 td.ec:hover{background:none}
+.at2 td.cc{background:#e8f0e8}.at2 td.pc{background:#f0f0f0;color:var(--ptx);font-style:italic;cursor:pointer}
+.at2 td.pc:hover{background:#e4e4e4}.at2 td.ec{color:#b0c4d0;font-style:italic;cursor:default}.at2 td.ec:hover{background:none}
 .at2 td.yc{border-left:1px solid var(--b2);font-weight:500;color:var(--txt);cursor:default}
 .at2 td.yc:hover{background:none}
-.at2 tr.as td{font-size:9px;padding:6px 5px;border-bottom:1px solid var(--brd);background:#fff;text-align:right;color:var(--t2);white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:300}
+.at2 tr.as td{font-size:9px;padding:6px 5px;border-bottom:1px solid var(--brd);background:#fff;text-align:right;color:var(--txt);white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:400}
 .at2 tr.as td:first-child{text-align:left;padding-left:28px;color:var(--t2);font-weight:300}
 .at2 tr.as td.cc{background:#e8f0e8}.at2 tr.as td.pc{background:#f0f0f0}
 .at2 tr.as:hover td:not(.ec):not(.yc){background:#e8f0e8}
@@ -168,7 +168,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .avtv{font-family:var(--num);font-size:13px;color:var(--txt);font-weight:500}
 .at2 tfoot td{font-size:9px;padding:7px 5px;border-top:1px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;text-align:right}
 .at2 tfoot td:first-child{padding-left:20px;text-align:left}
-.at2 tfoot td.pc{background:#f4f7fa;color:#8fa8bc;font-style:italic}
+.at2 tfoot td.pc{background:var(--pbg);color:var(--ptx);font-style:italic}
 .at2 tfoot td.yc{border-left:1px solid var(--b2)}
 .ex{display:inline-block;font-size:8px;color:var(--t3);margin-right:4px;transition:transform .15s;user-select:none}
 .ex.op{transform:rotate(90deg)}
@@ -365,7 +365,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 <div class="view" id="va">
   <div class="leg">
     <div class="li"><div class="ld r"></div>Actual</div>
-    <div class="li"><div class="ld c"></div><span id="leg-cur">Current (Mar)</span></div>
+    <div class="li"><div class="ld c"></div>Current (Mar)</div>
     <div class="li" id="pl"><div class="ld p"></div>Projected — accrual</div>
     <div style="margin-left:auto;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)">Click any cell · subcategory expands inline</div>
   </div>
@@ -384,7 +384,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
   </div>
   <div class="ts">
     <table class="at2">
-      <thead id="at2-head"><tr>
+      <thead><tr>
         <th>Category / Sub</th>
         <th>Jan</th><th>Feb</th><th class="ch">Mar ●</th>
         <th class="ph">Apr</th><th class="ph">May</th><th class="ph">Jun</th>
@@ -440,7 +440,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 const F=n=>!n?'—':n<0?`<span class="neg-val">-$${Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0})}</span>`:'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
 const ML=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-let CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};
+const CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};
 let mode='cash',cmp=false,aMode='cash',aExp={},aSub=null,cY='2026',cMi=2;
 let SALIDAS={};// {month: [{fecha,prov,memo,monto,cat,sub}]}
 const CATS=[];
@@ -569,7 +569,7 @@ function bKPI(){
   const k5=document.querySelector('.kpi:nth-child(5)');
   if(k1){k1.innerHTML=`<div class="kl">Total Expenses</div><div class="kr"><div class="kv">${F(tot)}</div></div><div class="kd nu">${ML[mi]} ${cY}</div>`;k1.onclick=()=>oKPI(k1,'Total Expenses',ML[mi]+' '+cY,tot,kA);}
   if(k2){
-    const momHtml=prev!==null?`<div class="kd ${deltaClass}">${deltaSign}${deltaAbs>=0?'↑':'↓'} ${F(Math.abs(deltaAbs))}</div>`:'';
+    const momHtml=prev!==null?`<div class="kd ${deltaClass}">${deltaSign}${deltaAbs>=0?'↑':'↓'} ${F(Math.abs(deltaAbs))} vs ${ML[prev]}</div>`:''; 
     k2.innerHTML=`<div class="kl">Δ vs ${prev!==null?ML[prev]:'—'}</div><div class="kr"><div class="kv">${prev!==null?(deltaSign+delta.toFixed(1)+'%'):'—'}</div>${momHtml}</div>`;
     k2.onclick=()=>oKPI(k2,'Δ vs Prior Month','MoM',deltaAbs,kV);
   }
@@ -584,7 +584,7 @@ function bKPI(){
     k3.innerHTML=`<div class="kl">Burn Rate</div><div class="kr"><div class="kv">${F(burn)}</div></div><div class="kd nu">excl. sporadic</div>`;k3.onclick=()=>oKPI(k3,'Burn Rate',ML[mi]+' '+cY,burn,kB);
   }
   if(k4){
-    const ytdK=Math.abs(ytd)>=1000?'$'+Math.round(Math.abs(ytd)/1000)+'k':F(ytd);
+    const ytdK=F(ytd);
     k4.innerHTML=`<div class="kl">YTD ${cY}</div><div class="kr"><div class="kv">${ytdK}</div></div><div class="kd nu">${MS[0]}–${MS[mi]}</div>`;k4.onclick=()=>oKPI(k4,'YTD '+cY,'Jan–'+MS[mi]+' '+cY,ytd,kY);
   }
   if(k5){
@@ -634,7 +634,7 @@ function bM(){
         const sid=`s_${cat.k}_${sub.n}`.replace(/\W/g,'_');
         const isA=aSub===sid;
         const tags=(sub.ia?`<span class="at">accrual</span>`:'');
-        h+=`<tr class="sr${isA?' asr':''}" id="${sid}" onclick="sSub(this,'${cat.k}','${sub.n}',${mi},'${sid}')"><td>${sub.n}${tags}</td><td>${sv?F(sv):'—'}</td><td onclick="event.stopPropagation();prev!==null&&sfv&&oSubPrev(this,'${cat.k}','${sub.n}',${prev})">${prev!==null?(sfv?F(sfv):'—'):'—'}</td><td class="${dCl(sv,sfv)}">${pct(sv,sfv)}</td><td class="yc" onclick="event.stopPropagation();oSubY(this,'${cat.k}','${sub.n}',${mi})">${sytd?F(sytd):'—'}</td></tr>`;
+        h+=`<tr class="sr${isA?' asr':''}" id="${sid}" onclick="sSub(this,'${cat.k}','${sub.n}',${mi},'${sid}')"><td title="${sub.n}">${sub.n}${tags}</td><td>${sv?F(sv):'—'}</td><td onclick="event.stopPropagation();prev!==null&&sfv&&oSubPrev(this,'${cat.k}','${sub.n}',${prev})">${prev!==null?(sfv?F(sfv):'—'):'—'}</td><td class="${dCl(sv,sfv)}">${pct(sv,sfv)}</td><td class="yc" onclick="event.stopPropagation();oSubY(this,'${cat.k}','${sub.n}',${mi})">${sytd?F(sytd):'—'}</td></tr>`;
       });
     }
   });
@@ -675,10 +675,6 @@ function tAC(k){aExp[k]=!aExp[k];const allO=CATS.every(c=>aExp[c.k]);document.ge
 function tAS(ck,sn,sid){aOS=aOS===sid?null:sid;bA();}
 
 function bA(){
-  CI=cMi;
-  const _lc=document.getElementById('leg-cur');if(_lc)_lc.textContent='Current ('+MS[cMi]+')';
-  const _h=document.getElementById('at2-head');
-  if(_h){const _t=_h.querySelectorAll('th');for(let _i=1;_i<=12;_i++){const _mi=_i-1;if(_mi===cMi){_t[_i].className='ch';_t[_i].textContent=MS[_mi]+' ●';}else if(_t[_i].className==='ch'){_t[_i].className='';_t[_i].textContent=MS[_mi];}}}
   const sp=aMode==='accrual';
   const gV2=(sub,mi)=>sp?(sub.a[mi]||0):(sub.c[mi]||0);
   const gCV2=(cat,mi)=>cat.subs.reduce((s,sub)=>s+gV2(sub,mi),0);
@@ -692,7 +688,8 @@ function bA(){
       const cl=mi===CI?'cc':hp?'pc':'';
       cc+=`<td class="${cl}" onclick="oAC(this,'${cat.k}',${mi},${mi>CI&&hp})">${F(v)}</td>`;
     }
-    tbody+=`<tr class="ac${cy<0?' neg-row':''}"><td onclick="tAC('${cat.k}')"><span class="ex${isE?' op':''}" id="ex_${cat.k}">▶</span>${catDisplay(cat.k)}</td>${cc}<td class="yc">${F(cy)}</td></tr>`;
+    const _hasNeg=cat.subs.some(s=>s.c.some(v=>v<0)||s.a.some(v=>v<0));
+    tbody+=`<tr class="ac${_hasNeg?' neg-row':''}"><td onclick="tAC('${cat.k}')"><span class="ex${isE?' op':''}" id="ex_${cat.k}">▶</span>${catDisplay(cat.k)}</td>${cc}<td class="yc">${F(cy)}</td></tr>`;
     if(isE){
       cat.subs.forEach(sub=>{
         const sid=`as_${cat.k}_${sub.n}`.replace(/\W/g,'_');
@@ -726,9 +723,9 @@ function bA(){
               const v=vRow[mi];
               const isP=sp&&mi>CI&&sub.ia&&v>0;
               const cl=(mi===CI?'cc':(isP?'pc':'ec'));
-              vc+=`<td class="${cl}" style="font-size:9px;color:var(--t2);padding:4px 5px;text-align:right;white-space:nowrap">${v?F(v):'—'}</td>`;
+              vc+=`<td class="${cl}" style="font-size:8px;color:var(--t2);padding:3px 5px;text-align:right;white-space:nowrap">${v?F(v):'—'}</td>`;
             }
-            tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd)"><td style="padding:4px 5px 4px 52px;font-size:9px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:9px;font-weight:500;color:var(--txt);padding:4px 5px;text-align:right">${F(vTot)}</td></tr>`;
+            tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
           });
         }
       });
@@ -818,13 +815,14 @@ const SHEET_TAB='Borrador';
 
 // Category order — matches exact values in Sheet 'categoria' column
 // Sheet values: PAYROLL, TECHNOLOGY, MARKETING, OTHERS, SUBSCRIPTIONS, ADVERTISING, PHONES, SERVERS, AI TOOLS
-const CAT_ORDER=['PAYROLL','ADVERTISING','PHONES','SERVERS','AI TOOLS','TECHNOLOGY','MARKETING','SUBSCRIPTIONS','OTHERS','TAXES'];
+const CAT_ORDER=['PAYROLL','TECHNOLOGY','MARKETING','SUBSCRIPTIONS','ADVERTISING','AI TOOLS','PHONES','SERVERS','OTHERS','TAXES'];
 
 // Map Sheet categoria values to display names
 const CAT_DISPLAY={
-  'PAYROLL':'Payroll','ADVERTISING':'Advertising','PHONES':'Phones',
-  'SERVERS':'Servers','TECHNOLOGY':'Technology','MARKETING':'Marketing',
-  'SUBSCRIPTIONS':'Subscriptions','AI TOOLS':'AI Tools','OTHERS':'Others','TAXES':'Taxes'
+  'PAYROLL':'Payroll','TECHNOLOGY':'Technology','MARKETING':'Marketing',
+  'SUBSCRIPTIONS':'Subscriptions','ADVERTISING':'Advertising',
+  'AI TOOLS':'AI Tools','PHONES':'Phones','SERVERS':'Servers','OTHERS':'Others',
+  'TAXES':'Taxes'
 };
 
 function mapCat(raw){
