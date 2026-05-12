@@ -754,34 +754,16 @@ function tAI(){
 const ANTHROPIC_API_KEY='';// Add your Anthropic API key here
 
 // ═══════════════════════════════════
-// SUPABASE CONTEXT LOADER
+// SUPABASE CONTEXT LOADER (via Netlify Function)
 // ═══════════════════════════════════
-const SUPABASE_URL='https://ewjnifdskwtatvfivaui.supabase.co';
-const SUPABASE_ANON='sb_publishable_vGnVjd9A2zsNkicZ109vlA_l2dUDSk_';
 let SB_CONTEXT='';
 
 async function loadSupabaseContext(){
   try{
-    const h={'apikey':SUPABASE_ANON,'Authorization':'Bearer '+SUPABASE_ANON};
-    const r1=await fetch(`${SUPABASE_URL}/rest/v1/business_context?select=seccion,campo,valor,notas&order=seccion`,{headers:h});
-    const ctx=await r1.json();
-    const r2=await fetch(`${SUPABASE_URL}/rest/v1/vendors?select=vendor,categoria,status,monto_mensual_real,frecuencia,fecha_fin_renovacion,notas&order=vendor`,{headers:h});
-    const vendors=await r2.json();
-    let out='=== CONTEXTO DEL NEGOCIO ===\n';
-    const secs={};
-    ctx.forEach(r=>{if(!secs[r.seccion])secs[r.seccion]=[];secs[r.seccion].push(`${r.campo}: ${r.valor}${r.notas?' ('+r.notas+')':''}`);});
-    Object.keys(secs).forEach(s=>{out+=`\n[${s}]\n`+secs[s].join('\n')+'\n';});
-    out+='\n=== VENDORS ACTIVOS ===\n';
-    vendors.filter(v=>v.status==='Activo').forEach(v=>{
-      out+=`${v.vendor} (${v.categoria}): ${v.monto_mensual_real||'—'}`;
-      if(v.fecha_fin_renovacion&&v.fecha_fin_renovacion!=='Sin vencimiento')out+=` · vence ${v.fecha_fin_renovacion}`;
-      if(v.notas&&v.notas.includes('⚠'))out+=` · ${v.notas}`;
-      out+='\n';
-    });
-    const cancelados=vendors.filter(v=>v.status==='Cancelado');
-    if(cancelados.length)out+='\n[CANCELADOS] '+cancelados.map(v=>v.vendor).join(', ')+'\n';
-    SB_CONTEXT=out;
-    console.log('✅ Supabase context loaded:',ctx.length,'context rows +',vendors.length,'vendors');
+    const r=await fetch('/.netlify/functions/supabase-context',{method:'GET'});
+    const data=await r.json();
+    SB_CONTEXT=data.context||'';
+    console.log('✅ Supabase context loaded via function');
   }catch(e){
     console.warn('⚠️ Supabase context load failed:',e.message);
     SB_CONTEXT='';
