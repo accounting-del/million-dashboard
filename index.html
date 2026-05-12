@@ -417,12 +417,12 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
   </div>
   <div class="ts">
     <table class="at2">
-      <thead><tr>
+      <thead><tr id="ann-header">
         <th>Category / Sub</th>
-        <th>Jan</th><th>Feb</th><th class="ch">Mar ●</th>
-        <th class="ph">Apr</th><th class="ph">May</th><th class="ph">Jun</th>
-        <th class="ph">Jul</th><th class="ph">Aug</th><th class="ph">Sep</th>
-        <th class="ph">Oct</th><th class="ph">Nov</th><th class="ph">Dec</th>
+        <th>Jan</th><th>Feb</th><th>Mar</th>
+        <th>Apr</th><th>May</th><th>Jun</th>
+        <th>Jul</th><th>Aug</th><th>Sep</th>
+        <th>Oct</th><th>Nov</th><th>Dec</th>
         <th class="yh">Total</th>
       </tr></thead>
       <tbody id="ab"></tbody>
@@ -473,7 +473,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 const F=n=>!n?'—':n<0?`<span class="neg-val">-$${Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0})}</span>`:'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
 const ML=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};
+const CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};let CI_DYN=2;// updated after data loads
 let mode='cash',cmp=false,aMode='cash',aExp={},aSub=null,cY='2026',cMi=2;
 let SALIDAS={};// {month: [{fecha,prov,memo,monto,cat,sub}]}
 const CATS=[];
@@ -707,7 +707,21 @@ function tAll(){const allO=CATS.every(c=>aExp[c.k]);CATS.forEach(c=>aExp[c.k]=!a
 function tAC(k){aExp[k]=!aExp[k];const allO=CATS.every(c=>aExp[c.k]);document.getElementById('eb').textContent=allO?'Collapse All':'Expand All';bA();}
 function tAS(ck,sn,sid){aOS=aOS===sid?null:sid;bA();}
 
+function updateAnnHeader(){
+  const tr=document.getElementById('ann-header');
+  if(!tr)return;
+  const ths=tr.querySelectorAll('th');
+  // ths[0]=Category, ths[1-12]=months, ths[13]=Total
+  for(let i=1;i<=12;i++){
+    const mi=i-1;
+    ths[i].className='';
+    ths[i].textContent=MS[mi];
+    if(mi===cMi){ths[i].className='ch';ths[i].textContent=MS[mi]+' ●';}
+    else if(mi>cMi){ths[i].className='ph';}
+  }
+}
 function bA(){
+  updateAnnHeader();
   const sp=aMode==='accrual';
   const gV2=(sub,mi)=>sp?(sub.a[mi]||0):(sub.c[mi]||0);
   const gCV2=(cat,mi)=>cat.subs.reduce((s,sub)=>s+gV2(sub,mi),0);
@@ -717,8 +731,8 @@ function bA(){
     for(let mi=0;mi<12;mi++){
       const v=gCV2(cat,mi);const hp=sp&&mi>CI&&cat.subs.some(s=>s.ia&&(s.a[mi]||0)>0);
       cy+=v;
-      if(!v&&!hp){cc+=`<td class="ec${mi===CI?' cc':''}">—</td>`;continue;}
-      const cl=mi===CI?'cc':hp?'pc':'';
+      if(!v&&!hp){cc+=`<td class="ec${mi===cMi?' cc':''}">—</td>`;continue;}
+      const cl=mi===cMi?'cc':hp?'pc':'';
       cc+=`<td class="${cl}" onclick="oAC(this,'${cat.k}',${mi},${mi>CI&&hp})">${F(v)}</td>`;
     }
     const _hasNeg=cat.subs.some(s=>s.c.some(v=>v<0)||s.a.some(v=>v<0));
@@ -731,8 +745,8 @@ function bA(){
         for(let mi=0;mi<12;mi++){
           const v=gV2(sub,mi);const isP=sp&&mi>CI&&sub.ia&&v>0;
           sy+=v;
-          if(!v){sc+=`<td class="ec${mi===CI?' cc':''}">—</td>`;continue;}
-          const cl=mi===CI?'cc':isP?'pc':'';
+          if(!v){sc+=`<td class="ec${mi===cMi?' cc':''}">—</td>`;continue;}
+          const cl=mi===cMi?'cc':isP?'pc':'';
           sc+=`<td class="${cl}" onclick="event.stopPropagation();oAS(this,'${cat.k}','${sub.n}',${mi},${isP},'${sid}')">${F(v)}</td>`;
         }
         const at=sub.ia&&sp?`<span class="at">accrual</span>`:'';
@@ -755,7 +769,7 @@ function bA(){
             for(let mi=0;mi<12;mi++){
               const v=vRow[mi];
               const isP=sp&&mi>CI&&sub.ia&&v>0;
-              const cl=(mi===CI?'cc':(isP?'pc':'ec'));
+              const cl=(mi===cMi?'cc':(isP?'pc':'ec'));
               vc+=`<td class="${cl}" style="font-size:8px;color:var(--t2);padding:3px 5px;text-align:right;white-space:nowrap">${v?F(v):'—'}</td>`;
             }
             tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
@@ -766,7 +780,7 @@ function bA(){
   });
   let tots=new Array(12).fill(0);CATS.forEach(cat=>{for(let mi=0;mi<12;mi++)tots[mi]+=gCV2(cat,mi);});
   let gY=0,tf='<tr><td>Total</td>';
-  tots.forEach((v,mi)=>{gY+=v;const hp=sp&&mi>CI&&v>0;tf+=`<td class="${mi===CI?'cc':hp?'pc':''}">${v?F(v):'—'}</td>`;});
+  tots.forEach((v,mi)=>{gY+=v;const hp=sp&&mi>CI&&v>0;tf+=`<td class="${mi===cMi?'cc':hp?'pc':''}">${v?F(v):'—'}</td>`;});
   tf+=`<td class="yc">${F(gY)}</td></tr>`;
   document.getElementById('ab').innerHTML=tbody;
   document.getElementById('af').innerHTML=tf;
@@ -793,7 +807,7 @@ let SB_CONTEXT='';
 
 async function loadSupabaseContext(){
   try{
-    const r=await fetch('/.netlify/functions/supabase-context',{method:'GET'});
+    const r=await fetch('/api/supabase-context',{method:'GET'});
     const data=await r.json();
     SB_CONTEXT=data.context||'';
     console.log('✅ Supabase context loaded via function');
@@ -879,7 +893,7 @@ function renderMD(text){
 // ═══════════════════════════════════
 async function querySupabase(question) {
   try {
-    const r = await fetch('/.netlify/functions/supabase-query', {
+    const r = await fetch('/api/supabase-query', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({question})
@@ -979,7 +993,7 @@ REGLA CRÍTICA DE RESPUESTA:
 - NUNCA des un desglose completo de todos los gastos a menos que explícitamente te lo pidan
 
 ${SB_CONTEXT}`;
-    const resp=await fetch('/.netlify/functions/claude',{
+    const resp=await fetch('/api/claude',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
@@ -1280,5 +1294,15 @@ function processData(monthSet,txnsByMonthCatSub){
 loadSheet();
 loadSupabaseContext();
 </script>
+
+<!-- FLOATING AI BUTTON -->
+<div id="ai-float" onclick="tAI()" style="position:fixed;bottom:28px;right:28px;background:var(--hdr);color:#fff;border-radius:12px;padding:12px 20px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.18);display:flex;align-items:center;gap:10px;z-index:100;transition:all .15s">
+  <span style="width:8px;height:8px;border-radius:50%;background:#4caf84;flex-shrink:0"></span>
+  <div>
+    <div style="font-size:11px;font-weight:500;letter-spacing:.04em">AI Analysis</div>
+    <div style="font-size:9px;opacity:.65;letter-spacing:.06em">Analiza los gastos del mes con IA</div>
+  </div>
+  <div style="font-size:13px;opacity:.7;margin-left:4px">→</div>
+</div>
 </body>
 </html>
