@@ -905,6 +905,10 @@ REGLA CRÍTICA DE RESPUESTA:
 - NO agregues información de otros vendors, categorías o alertas no solicitadas
 - NO hagas recomendaciones si no te las piden
 - Si la pregunta es específica, la respuesta debe ser específica
+- Si preguntan por un total o número, da el número y máximo 2 líneas de contexto
+- Si preguntan por una categoría, da solo esa categoría — no el desglose completo
+- Respuestas cortas por defecto — el usuario pedirá más detalle si lo necesita
+- NUNCA des un desglose completo de todos los gastos a menos que explícitamente te lo pidan
 
 ${SB_CONTEXT}`;
     const resp=await fetch('/.netlify/functions/claude',{
