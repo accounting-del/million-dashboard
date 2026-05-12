@@ -781,20 +781,60 @@ async function loadSupabaseContext(){
 }
 function buildAIContext(){
   const mi=cMi,prev=mi>0?mi-1:null;
-  let ctx=`Período: ${ML[mi]} 2026 | Basis: ${mode==='accrual'?'Accrual':'Cash'}\n\n`;
-  const tot=CATS.reduce((s,c)=>s+gCV(c,mi,mode),0);
-  const totPrev=prev!==null?CATS.reduce((s,c)=>s+gCV(c,prev,mode),0):0;
-  ctx+=`TOTAL MES: $${Math.round(tot).toLocaleString()}`;
-  if(prev!==null)ctx+=` (vs ${ML[prev]}: $${Math.round(totPrev).toLocaleString()}, ${tot>totPrev?'+':''}${Math.round((tot-totPrev)/totPrev*100)}%)`;
-  ctx+='\n\nPOR CATEGORÍA:\n';
+  let ctx=`Período: ${ML[mi]} ${cY} | Modo activo en dashboard: ${mode==='accrual'?'Accrual':'Cash'}\n\n`;
+
+  // ── CASH BASIS ──────────────────────────────────────────
+  const totC=CATS.reduce((s,c)=>s+gCV(c,mi,'cash'),0);
+  const totCP=prev!==null?CATS.reduce((s,c)=>s+gCV(c,prev,'cash'),0):0;
+  ctx+=`=== CASH BASIS ===\n`;
+  ctx+=`TOTAL: $${Math.round(totC).toLocaleString()}`;
+  if(prev!==null&&totCP)ctx+=` (vs ${ML[prev]}: $${Math.round(totCP).toLocaleString()}, ${totC>totCP?'+':''}${Math.round((totC-totCP)/totCP*100)}%)`;
+  ctx+='\nPOR CATEGORÍA:\n';
   CATS.forEach(cat=>{
-    const v=gCV(cat,mi,mode);if(!v)return;
-    const vp=prev!==null?gCV(cat,prev,mode):0;
+    const v=gCV(cat,mi,'cash');if(!v)return;
+    const vp=prev!==null?gCV(cat,prev,'cash'):0;
     ctx+=`${catDisplay(cat.k)}: $${Math.round(v).toLocaleString()}`;
     if(vp)ctx+=` (${v>vp?'+':''}${Math.round((v-vp)/vp*100)}% vs ${ML[prev]})`;
     ctx+='\n';
-    cat.subs.forEach(sub=>{const sv=gV(sub,mi);if(sv)ctx+=`  · ${sub.n}: $${Math.round(sv).toLocaleString()}\n`;});
+    cat.subs.forEach(sub=>{
+      const sv=sub.c[mi]||0;
+      if(sv)ctx+=`  · ${sub.n}: $${Math.round(sv).toLocaleString()}\n`;
+    });
   });
+
+  // ── ACCRUAL BASIS ────────────────────────────────────────
+  const totA=CATS.reduce((s,c)=>s+gCV(c,mi,'accrual'),0);
+  const totAP=prev!==null?CATS.reduce((s,c)=>s+gCV(c,prev,'accrual'),0):0;
+  ctx+=`\n=== ACCRUAL BASIS ===\n`;
+  ctx+=`TOTAL: $${Math.round(totA).toLocaleString()}`;
+  if(prev!==null&&totAP)ctx+=` (vs ${ML[prev]}: $${Math.round(totAP).toLocaleString()}, ${totA>totAP?'+':''}${Math.round((totA-totAP)/totAP*100)}%)`;
+  ctx+='\nPOR CATEGORÍA:\n';
+  CATS.forEach(cat=>{
+    const v=gCV(cat,mi,'accrual');if(!v)return;
+    const vp=prev!==null?gCV(cat,prev,'accrual'):0;
+    ctx+=`${catDisplay(cat.k)}: $${Math.round(v).toLocaleString()}`;
+    if(vp)ctx+=` (${v>vp?'+':''}${Math.round((v-vp)/vp*100)}% vs ${ML[prev]})`;
+    ctx+='\n';
+    cat.subs.forEach(sub=>{
+      const sv=sub.a[mi]||0;
+      if(sv)ctx+=`  · ${sub.n}: $${Math.round(sv).toLocaleString()}${sub.ia?' [accrual]':''}\n`;
+    });
+  });
+
+  // ── DIFERENCIAS CASH vs ACCRUAL ──────────────────────────
+  const diff=totA-totC;
+  if(Math.abs(diff)>0){
+    ctx+=`\n=== DIFERENCIA ACCRUAL vs CASH ===\n`;
+    ctx+=`Accrual es ${diff>0?'+':''}$${Math.round(Math.abs(diff)).toLocaleString()} ${diff>0?'mayor':'menor'} que Cash\n`;
+    ctx+='Subcategorías con distribución accrual este mes:\n';
+    CATS.forEach(cat=>{
+      cat.subs.forEach(sub=>{
+        const sc=sub.c[mi]||0, sa=sub.a[mi]||0;
+        if(sub.ia&&Math.abs(sa-sc)>10)ctx+=`  · ${sub.n}: Cash $${Math.round(sc).toLocaleString()} vs Accrual $${Math.round(sa).toLocaleString()}\n`;
+      });
+    });
+  }
+
   return ctx;
 }
 function renderMD(text){
