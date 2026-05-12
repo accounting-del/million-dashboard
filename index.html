@@ -743,7 +743,42 @@ function oAS(el,ck,sn,mi,isP,sid){const cat=CATS.find(c=>c.k===ck),sub=cat.subs.
 
 // AI
 function tAI(){document.getElementById('aip').classList.toggle('op');}
-const ANTHROPIC_API_KEY='';// Add your Anthropic API key here
+const ANTHROPIC_API_KEY='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';// Add your Anthropic API key here
+
+// ═══════════════════════════════════
+// SUPABASE CONTEXT LOADER
+// ═══════════════════════════════════
+const SUPABASE_URL='https://ewjnifdskwtatvfivaui.supabase.co';
+const SUPABASE_ANON='sb_publishable_vGnVjd9A2zsNkicZ109vlA_l2dUDSk_';
+let SB_CONTEXT='';
+
+async function loadSupabaseContext(){
+  try{
+    const h={'apikey':SUPABASE_ANON,'Authorization':'Bearer '+SUPABASE_ANON};
+    const r1=await fetch(`${SUPABASE_URL}/rest/v1/business_context?select=seccion,campo,valor,notas&order=seccion`,{headers:h});
+    const ctx=await r1.json();
+    const r2=await fetch(`${SUPABASE_URL}/rest/v1/vendors?select=vendor,categoria,status,monto_mensual_real,frecuencia,fecha_fin_renovacion,notas&order=vendor`,{headers:h});
+    const vendors=await r2.json();
+    let out='=== CONTEXTO DEL NEGOCIO ===\n';
+    const secs={};
+    ctx.forEach(r=>{if(!secs[r.seccion])secs[r.seccion]=[];secs[r.seccion].push(`${r.campo}: ${r.valor}${r.notas?' ('+r.notas+')':''}`);});
+    Object.keys(secs).forEach(s=>{out+=`\n[${s}]\n`+secs[s].join('\n')+'\n';});
+    out+='\n=== VENDORS ACTIVOS ===\n';
+    vendors.filter(v=>v.status==='Activo').forEach(v=>{
+      out+=`${v.vendor} (${v.categoria}): ${v.monto_mensual_real||'—'}`;
+      if(v.fecha_fin_renovacion&&v.fecha_fin_renovacion!=='Sin vencimiento')out+=` · vence ${v.fecha_fin_renovacion}`;
+      if(v.notas&&v.notas.includes('⚠'))out+=` · ${v.notas}`;
+      out+='\n';
+    });
+    const cancelados=vendors.filter(v=>v.status==='Cancelado');
+    if(cancelados.length)out+='\n[CANCELADOS] '+cancelados.map(v=>v.vendor).join(', ')+'\n';
+    SB_CONTEXT=out;
+    console.log('✅ Supabase context loaded:',ctx.length,'context rows +',vendors.length,'vendors');
+  }catch(e){
+    console.warn('⚠️ Supabase context load failed:',e.message);
+    SB_CONTEXT='';
+  }
+}
 function buildAIContext(){
   const mi=cMi,prev=mi>0?mi-1:null;
   let ctx=`Período: ${ML[mi]} 2026 | Basis: ${mode==='accrual'?'Accrual':'Cash'}\n\n`;
@@ -790,13 +825,32 @@ async function sAI(preset){
   }
   try{
     const ctx=buildAIContext();
+    const systemPrompt=`Eres el analista financiero senior de Million Real Estate Inc. (MRI) y Mausefl LLC.
+Tienes acceso al contexto completo del negocio, vendors activos y datos reales del mes.
+
+REGLAS CRÍTICAS:
+- Van Par LLC ($25,000/mes): NUNCA incluir en burn rate — es buyout de acciones de Luis Paredes, no gasto operativo
+- Extra Bonus: ajuste contable fin de mes — excluir del burn rate
+- Hola Car Rentals: empresa SEPARADA — no incluir en análisis MRI/Mausefl
+- Google Ads: desde mayo 2026 es 1 cargo mensual consolidado (antes cargos de ~$10k cada 2-3 días)
+- Calamari: facturación ANUAL — variaciones mensuales son normales
+- Reembolsos y reversiones: excluir del burn rate
+
+FORMATO:
+- Siempre en español
+- Directo y ejecutivo — sin relleno
+- Números en USD con formato $X,XXX
+- Máximo 3 recomendaciones accionables
+- Alertas importantes en negrita
+
+${SB_CONTEXT}`;
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01'},
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',max_tokens:1500,
-        system:'Eres un asesor financiero especializado en contabilidad de caja para Million Real Estate Inc. y MAUSEFL LLC. Analiza los datos y da recomendaciones concretas y accionables. Solo hablas de flujo de caja real. NO menciones cuentas por pagar, P&L ni accruals. Usa $ y formato numérico claro. Sé conciso y directo.',
-        messages:[{role:'user',content:`DATOS:\n${ctx}\n\nPREGUNTA: ${q}`}]
+        system:systemPrompt,
+        messages:[{role:'user',content:`DATOS DEL MES:\n${ctx}\n\nPREGUNTA: ${q}`}]
       })
     });
     const data=await resp.json();
@@ -1087,6 +1141,7 @@ function processData(monthSet,txnsByMonthCatSub){
 
 // INIT
 loadSheet();
+loadSupabaseContext();
 </script>
 </body>
 </html>
