@@ -859,6 +859,56 @@ function renderMD(text){
     .replace(/🟢 (.+)/g,'<div class="alert-box green">🟢 $1</div>')
     .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
 }
+// ═══════════════════════════════════
+// SUPABASE REAL-TIME QUERY
+// ═══════════════════════════════════
+async function querySupabase(question) {
+  try {
+    const r = await fetch('/.netlify/functions/supabase-query', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({question})
+    });
+    const result = await r.json();
+    if (!result.data || !result.data.length) return '';
+
+    // Format results as readable text for Claude
+    let out = `\n=== DATOS REALES DE SUPABASE (${result.type}) ===\n`;
+    const data = result.data;
+
+    if (result.type === 'vendor') {
+      // Group by month
+      const byMonth = {};
+      data.forEach(row => {
+        if (!byMonth[row.month_label]) byMonth[row.month_label] = [];
+        byMonth[row.month_label].push(row);
+      });
+      Object.keys(byMonth).sort().reverse().forEach(month => {
+        const rows = byMonth[month];
+        const total = rows.reduce((s,r) => s + parseFloat(r.monto||0), 0);
+        out += `${month}: $${Math.round(total).toLocaleString()}\n`;
+        rows.forEach(r => {
+          out += `  · ${r.proveedor} | ${r.memo||''} | $${parseFloat(r.monto).toLocaleString()}`;
+          if (r.tipo_pago === 'Accrual') out += ' [accrual]';
+          if (r.recurrencia) out += ` | ${r.recurrencia}`;
+          out += '\n';
+        });
+      });
+      const grandTotal = data.reduce((s,r) => s + parseFloat(r.monto||0), 0);
+      out += `TOTAL HISTÓRICO: $${Math.round(grandTotal).toLocaleString()}\n`;
+    } else {
+      // Generic table format
+      data.slice(0, 30).forEach(row => {
+        out += Object.entries(row).map(([k,v]) => `${k}: ${v}`).join(' | ') + '\n';
+      });
+    }
+    return out;
+  } catch(e) {
+    console.warn('Supabase query failed:', e.message);
+    return '';
+  }
+}
+
 async function sAI(preset){
   const inp=document.getElementById('aii');
   const q=(preset||inp.value||'').trim();if(!q)return;
@@ -870,8 +920,11 @@ async function sAI(preset){
   // API key is handled server-side via Netlify Function
   try{
     const ctx=buildAIContext();
+    // Query Supabase for real-time data
+    const sbData = await querySupabase(q);
+
     // Agregar mensaje del usuario al historial
-    aiHistory.push({role:'user', content:`DATOS DEL MES:\n${ctx}\n\nPREGUNTA: ${q}`});
+    aiHistory.push({role:'user', content:`DATOS DEL MES:\n${ctx}${sbData}\n\nPREGUNTA: ${q}`});
     // Mantener máximo 10 turnos (20 mensajes) para no exceder tokens
     if(aiHistory.length>20) aiHistory=aiHistory.slice(aiHistory.length-20);
     const systemPrompt=`Eres el analista financiero senior de Million Real Estate Inc. (MRI) y Mausefl LLC.
