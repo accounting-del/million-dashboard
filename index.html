@@ -742,7 +742,15 @@ function oAC(el,ck,mi,isP){const cat=CATS.find(c=>c.k===ck);const txns=cat.subs.
 function oAS(el,ck,sn,mi,isP,sid){const cat=CATS.find(c=>c.k===ck),sub=cat.subs.find(s=>s.n===sn);const v=aMode==='accrual'?(sub.a[mi]||0):(sub.c[mi]||0);let txns=sub.tx[mi];if(!txns)txns=v?[{d:isP?'Accrual':MS[mi],v:sn,s:ck,m:v,p:isP}]:[];oD(el,sn,`${ML[mi]} ${cY}`,v,txns);}
 
 // AI
-function tAI(){document.getElementById('aip').classList.toggle('op');}
+let aiHistory = []; // historial de conversación
+function tAI(){
+  document.getElementById('aip').classList.toggle('op');
+  // limpiar historial al cerrar el panel
+  if(!document.getElementById('aip').classList.contains('op')){
+    aiHistory=[];
+    document.getElementById('aim').innerHTML='<div class="aib"><div class="aibl">Claude</div>Ask anything about your expenses. Full context available.</div>';
+  }
+}
 const ANTHROPIC_API_KEY='';// Add your Anthropic API key here
 
 // ═══════════════════════════════════
@@ -862,8 +870,19 @@ async function sAI(preset){
   // API key is handled server-side via Netlify Function
   try{
     const ctx=buildAIContext();
+    // Agregar mensaje del usuario al historial
+    aiHistory.push({role:'user', content:`DATOS DEL MES:\n${ctx}\n\nPREGUNTA: ${q}`});
+    // Mantener máximo 10 turnos (20 mensajes) para no exceder tokens
+    if(aiHistory.length>20) aiHistory=aiHistory.slice(aiHistory.length-20);
     const systemPrompt=`Eres el analista financiero senior de Million Real Estate Inc. (MRI) y Mausefl LLC.
-Tienes acceso al contexto completo del negocio, vendors activos y datos reales del mes.
+Tienes acceso al contexto completo del negocio, vendors activos y datos reales del mes en DOS bases contables.
+
+SOBRE LOS DATOS QUE RECIBES:
+- Siempre recibes datos en CASH BASIS y en ACCRUAL BASIS para el mismo período
+- Cash Basis = gastos cuando se pagan realmente
+- Accrual Basis = gastos distribuidos en el período que corresponden (ej: suscripción anual dividida en 12 meses)
+- Las subcategorías marcadas [accrual] tienen distribución mensual automática
+- Usa la base que te pregunten; si no especifican, usa Cash Basis y menciona que también tienes Accrual
 
 REGLAS CRÍTICAS:
 - Van Par LLC ($25,000/mes): NUNCA incluir en burn rate — es buyout de acciones de Luis Paredes, no gasto operativo
@@ -894,11 +913,13 @@ ${SB_CONTEXT}`;
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',max_tokens:1500,
         system:systemPrompt,
-        messages:[{role:'user',content:`DATOS DEL MES:\n${ctx}\n\nPREGUNTA: ${q}`}]
+        messages:aiHistory
       })
     });
     const data=await resp.json();
     const text=data.content?.filter(b=>b.type==='text').map(b=>b.text).join('\n')||'Sin respuesta';
+    // Agregar respuesta de Claude al historial
+    aiHistory.push({role:'assistant', content:text});
     document.getElementById('ai-thinking').outerHTML=`<div class="aib"><div class="aibl">Claude</div><div class="ai-msg">${renderMD(text)}</div></div>`;
   }catch(e){
     document.getElementById('ai-thinking').outerHTML=`<div class="aib"><div class="aibl">Error</div><div class="ai-msg" style="color:var(--neg)">${e.message}</div></div>`;
