@@ -1,24 +1,39 @@
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
+exports.handler = async function(event) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  };
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
 
   try {
     const sbHeaders = {
-      'apikey': process.env.SUPABASE_KEY,
-      'Authorization': `Bearer ${process.env.SUPABASE_KEY}`
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`
     };
 
-    const [r1, r2] = await Promise.all([
-      fetch(`${process.env.SUPABASE_URL}/rest/v1/business_context?select=seccion,campo,valor,notas&order=seccion`, { headers: sbHeaders }),
-      fetch(`${process.env.SUPABASE_URL}/rest/v1/vendors?select=vendor,categoria,status,monto_mensual_real,frecuencia,fecha_fin_renovacion,notas&order=vendor`, { headers: sbHeaders })
-    ]);
-
+    // Fetch business_context
+    const r1 = await fetch(
+      `${SUPABASE_URL}/rest/v1/business_context?select=seccion,campo,valor,notas&order=seccion`,
+      { headers: sbHeaders }
+    );
     const ctx = await r1.json();
+
+    // Fetch vendors
+    const r2 = await fetch(
+      `${SUPABASE_URL}/rest/v1/vendors?select=vendor,categoria,status,monto_mensual_real,frecuencia,fecha_fin_renovacion,notas&order=vendor`,
+      { headers: sbHeaders }
+    );
     const vendors = await r2.json();
 
+    // Build context string
     let out = '=== CONTEXTO DEL NEGOCIO ===\n';
     const secs = {};
     ctx.forEach(r => {
@@ -43,8 +58,16 @@ export default async function handler(req, res) {
     if (cancelados.length)
       out += '\n[CANCELADOS] ' + cancelados.map(v => v.vendor).join(', ') + '\n';
 
-    return res.status(200).json({ context: out, rows: ctx.length, vendors: vendors.length });
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ context: out, rows: ctx.length, vendors: vendors.length })
+    };
   } catch(e) {
-    return res.status(500).json({ error: e.message, context: '' });
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: e.message, context: '' })
+    };
   }
-}
+};
