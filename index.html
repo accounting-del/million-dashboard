@@ -837,8 +837,15 @@ FORMATO:
 - Siempre en español
 - Directo y ejecutivo — sin relleno
 - Números en USD con formato $X,XXX
-- Máximo 3 recomendaciones accionables
+- Máximo 3 recomendaciones accionables SOLO si se piden explícitamente
 - Alertas importantes en negrita
+
+REGLA CRÍTICA DE RESPUESTA:
+- Responde ÚNICAMENTE lo que se pregunta — nada más
+- Si preguntan por Adobe, responde solo sobre Adobe
+- NO agregues información de otros vendors, categorías o alertas no solicitadas
+- NO hagas recomendaciones si no te las piden
+- Si la pregunta es específica, la respuesta debe ser específica
 
 ${SB_CONTEXT}`;
     const resp=await fetch('/.netlify/functions/claude',{
