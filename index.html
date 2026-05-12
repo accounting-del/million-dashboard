@@ -398,7 +398,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 <div class="view" id="va">
   <div class="leg">
     <div class="li"><div class="ld r"></div>Actual</div>
-    <div class="li"><div class="ld c"></div><span id="leg-cur">Current (Mar)</span></div>
+    <div class="li"><div class="ld c"></div>Current (Mar)</div>
     <div class="li" id="pl"><div class="ld p"></div>Projected — accrual</div>
     <div style="margin-left:auto;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)">Click any cell · subcategory expands inline</div>
   </div>
@@ -417,7 +417,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
   </div>
   <div class="ts">
     <table class="at2">
-      <thead id="at2-head"><tr>
+      <thead><tr>
         <th>Category / Sub</th>
         <th>Jan</th><th>Feb</th><th class="ch">Mar ●</th>
         <th class="ph">Apr</th><th class="ph">May</th><th class="ph">Jun</th>
@@ -465,36 +465,6 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
   </div>
 </div>
 
-
-<!-- FLOAT CARD -->
-<div class="ai-float" id="ai-float">
-  <div class="ai-float-head">
-    <div class="ai-float-left"><div class="ai-float-dot"></div><span class="ai-float-title">AI Analysis</span></div>
-    <button class="ai-float-x" onclick="document.getElementById('ai-float').classList.add('hidden')">✕</button>
-  </div>
-  <div class="ai-float-msg" id="ai-float-msg">Analiza los gastos del mes con IA</div>
-  <button class="ai-float-btn" onclick="openAIPop()">Abrir chat →</button>
-</div>
-<!-- AI POPOVER -->
-<div class="ai-pop" id="ai-pop">
-  <div class="ai-pop-head">
-    <div class="ai-pop-left"><div class="ai-pop-dot"></div><span class="ai-pop-title">AI Analysis</span><span class="ai-pop-sub" id="ai-pop-sub"></span></div>
-    <button class="ai-pop-x" onclick="closeAIPop()">✕</button>
-  </div>
-  <div class="ai-pop-chips">
-    <button class="ai-pop-chip" onclick="sAIPop('Dame un resumen ejecutivo del mes con los puntos más importantes')">Resumen ejecutivo</button>
-    <button class="ai-pop-chip" onclick="sAIPop('¿Qué gastos son inusuales o anómalos vs el mes anterior?')">Anomalías</button>
-    <button class="ai-pop-chip" onclick="sAIPop('¿Dónde puedo reducir gastos este mes?')">Reducir gastos</button>
-    <button class="ai-pop-chip" onclick="sAIPop('¿Cuál es la proyección anual a este ritmo de gasto?')">Proyección anual</button>
-  </div>
-  <div class="ai-pop-body" id="ai-pop-body">
-    <div class="ai-pop-ai"><div class="ai-pop-lbl">Claude</div>Haz una pregunta o usa los accesos rápidos.</div>
-  </div>
-  <div class="ai-pop-row">
-    <input class="ai-pop-inp" id="ai-pop-inp" placeholder="Escribe una pregunta…" onkeydown="if(event.key==='Enter')sAIPop()"/>
-    <button class="ai-pop-btn" onclick="sAIPop()">Enviar →</button>
-  </div>
-</div>
 </div><!-- /wrap -->
 <div class="ft"><div class="ftx">Million Real Estate Inc. · Mausefl LLC</div><div class="ftx">QuickBooks Borrador · Confidential</div></div>
 </div>
@@ -503,7 +473,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 const F=n=>!n?'—':n<0?`<span class="neg-val">-$${Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0})}</span>`:'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
 const ML=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-let CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};
+const CI=2,YLIST=['2025','2026'],DM={2026:[0,1,2]};
 let mode='cash',cmp=false,aMode='cash',aExp={},aSub=null,cY='2026',cMi=2;
 let SALIDAS={};// {month: [{fecha,prov,memo,monto,cat,sub}]}
 const CATS=[];
@@ -738,10 +708,6 @@ function tAC(k){aExp[k]=!aExp[k];const allO=CATS.every(c=>aExp[c.k]);document.ge
 function tAS(ck,sn,sid){aOS=aOS===sid?null:sid;bA();}
 
 function bA(){
-  CI=cMi;
-  const _lc=document.getElementById('leg-cur');if(_lc)_lc.textContent='Current ('+MS[cMi]+')';
-  const _h=document.getElementById('at2-head');
-  if(_h){const _t=_h.querySelectorAll('th');for(let _i=1;_i<=12;_i++){const _mi=_i-1;if(_mi===cMi){_t[_i].className='ch';_t[_i].textContent=MS[_mi]+' ●';}else if(_t[_i].className==='ch'){_t[_i].className='';_t[_i].textContent=MS[_mi];}}}
   const sp=aMode==='accrual';
   const gV2=(sub,mi)=>sp?(sub.a[mi]||0):(sub.c[mi]||0);
   const gCV2=(cat,mi)=>cat.subs.reduce((s,sub)=>s+gV2(sub,mi),0);
@@ -810,22 +776,7 @@ function oAS(el,ck,sn,mi,isP,sid){const cat=CATS.find(c=>c.k===ck),sub=cat.subs.
 
 // AI
 let aiHistory = []; // historial de conversación
-function tAI(){openAIPop();}
-function openAIPop(){
-  const pop=document.getElementById('ai-pop');
-  if(pop)pop.classList.add('open');
-  const sub=document.getElementById('ai-pop-sub');
-  if(sub)sub.textContent=ML[cMi]+' '+cY;
-  const fc=document.getElementById('ai-float');
-  if(fc)fc.classList.add('hidden');
-}
-function closeAIPop(){
-  const pop=document.getElementById('ai-pop');
-  if(pop)pop.classList.remove('open');
-  const fc=document.getElementById('ai-float');
-  if(fc)fc.classList.remove('hidden');
-}
-function _oldtAI(){
+function tAI(){
   document.getElementById('aip').classList.toggle('op');
   // limpiar historial al cerrar el panel
   if(!document.getElementById('aip').classList.contains('op')){
@@ -1322,39 +1273,8 @@ function processData(monthSet,txnsByMonthCatSub){
   const rEl=document.getElementById('hero-refreshed');
   if(rEl){const now=new Date();rEl.textContent=now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
   bDD();bM();
-  const _fm=document.getElementById('ai-float-msg');
-  if(_fm)_fm.textContent='Analiza los gastos de '+ML[cMi]+' con IA';
 }
 
-
-
-async function sAIPop(preset){
-  const inp=document.getElementById('ai-pop-inp');
-  const q=(preset||inp.value||'').trim();if(!q)return;
-  const msgs=document.getElementById('ai-pop-body');
-  msgs.innerHTML+=`<div class="ai-pop-u">${q}</div>`;
-  if(inp)inp.value='';
-  msgs.innerHTML+=`<div class="ai-pop-ai" id="pop-thinking"><div class="ai-pop-lbl">Claude</div><div class="thinking"><span></span><span></span><span></span><span style="margin-left:6px">Analizando...</span></div></div>`;
-  msgs.scrollTop=msgs.scrollHeight;
-  if(!ANTHROPIC_API_KEY){
-    document.getElementById('pop-thinking').outerHTML=`<div class="ai-pop-ai"><div class="ai-pop-lbl">Claude</div>Agrega tu API key en ANTHROPIC_API_KEY para activar el análisis.</div>`;
-    msgs.scrollTop=msgs.scrollHeight;return;
-  }
-  try{
-    const ctx=buildAIContext();
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:'Eres asesor financiero de Million Real Estate Inc. y Mausefl LLC. Responde en español, sé conciso y directo.',messages:[{role:'user',content:'DATOS:
-'+ctx+'
-
-PREGUNTA: '+q}]})});
-    const data=await resp.json();
-    const text=data.content?.filter(b=>b.type==='text').map(b=>b.text).join('
-')||'Sin respuesta';
-    document.getElementById('pop-thinking').outerHTML=`<div class="ai-pop-ai"><div class="ai-pop-lbl">Claude</div><div class="ai-msg">${renderMD(text)}</div></div>`;
-  }catch(e){
-    document.getElementById('pop-thinking').outerHTML=`<div class="ai-pop-ai"><div class="ai-pop-lbl">Error</div>${e.message}</div>`;
-  }
-  msgs.scrollTop=msgs.scrollHeight;
-}
 
 // INIT
 loadSheet();
