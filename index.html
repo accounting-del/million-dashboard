@@ -1274,16 +1274,21 @@ function processData(monthSet,txnsByMonthCatSub){
         const txns=((txnsByMonthCatSub[m.ml]||{})[catKey]||{})[subName]||[];
         const cashOnly=txns.filter(function(t){return !t.p;});
         const accOnly=txns.filter(function(t){return t.p;});
-        // Cash Basis: ALL transactions count in the month they were paid (including accrual-tagged ones)
+        // CASH BASIS: ALL transactions (including accrual-tagged) count in the month paid
         const cashTotal=txns.reduce(function(s,t){return s+t.m;},0);
         cashVals[m.mi]+=cashTotal;
-        // Store accrual txns separately for distribution in Accrual Basis
+        // Store accrual txns separately for Accrual Basis distribution
         if(accOnly.length)accTxnsByMonth[m.mi]=accOnly;
         // txnMap for Cash view: all txns shown as paid in that month
         if(txns.length)txnMap[m.mi]=txns;
       });
-      // Start accVals as copy of cashVals (cash transactions stay as-is)
-      for(let mi=0;mi<12;mi++)accVals[mi]=cashVals[mi];
+      // ACCRUAL BASIS: start with cash-only transactions (non-accrual)
+      // Accrual-tagged transactions will be distributed separately
+      sortedMonths.forEach(function(m){
+        const txns=((txnsByMonthCatSub[m.ml]||{})[catKey]||{})[subName]||[];
+        const cashOnlyTotal=txns.filter(function(t){return !t.p;}).reduce(function(s,t){return s+t.m;},0);
+        accVals[m.mi]+=cashOnlyTotal;
+      });
       // For each month that has accrual txns, distribute their total across 12 months
       const hasAcc=Object.keys(accTxnsByMonth).length>0;
       if(hasAcc){
@@ -1293,10 +1298,8 @@ function processData(monthSet,txnsByMonthCatSub){
           const accTotal=accTxns.reduce(function(s,t){return s+t.m;},0);
           if(!accTotal)return;
           const monthly=Math.round(accTotal/12);
-          // Month of payment: add proportional share (not the full amount)
-          accVals[paidMi]+=monthly;
-          // Future months: add proportional share
-          for(let mi=paidMi+1;mi<12;mi++){
+          // Distribute across all 12 months starting from payment month
+          for(let mi=paidMi;mi<12;mi++){
             accVals[mi]+=monthly;
           }
           // Update txnMap for accrual view:
