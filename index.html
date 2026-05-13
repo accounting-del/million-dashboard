@@ -736,7 +736,7 @@ function bA(){
       cc+=`<td class="${cl}" onclick="oAC(this,'${cat.k}',${mi},${mi>CI&&hp})">${F(v)}</td>`;
     }
     const _hasNeg=cat.subs.some(s=>s.c.some(v=>v<0)||s.a.some(v=>v<0));
-    tbody+=`<tr class="ac${_hasNeg?' neg-row':''}"><td onclick="tAC('${cat.k}')"><span class="ex${isE?' op':''}" id="ex_${cat.k}">▶</span>${catDisplay(cat.k)}</td>${cc}<td class="yc">${F(cy)}</td></tr>`;
+    tbody+=`<tr class="ac${_hasNeg?' neg-row':''}"><td style="cursor:pointer" onclick="tAC('${cat.k}')"><span class="ex${isE?' op':''}" id="ex_${cat.k}">▶</span>${catDisplay(cat.k)}</td>${cc}<td class="yc">${F(cy)}</td></tr>`;
     if(isE){
       cat.subs.forEach(sub=>{
         const sid=`as_${cat.k}_${sub.n}`.replace(/\W/g,'_');
@@ -750,7 +750,7 @@ function bA(){
           sc+=`<td class="${cl}" onclick="event.stopPropagation();oAS(this,'${cat.k}','${sub.n}',${mi},${isP},'${sid}')">${F(v)}</td>`;
         }
         const at=sub.ia&&sp?`<span class="at">accrual</span>`:'';
-        tbody+=`<tr class="as${isO?' ao':''}" id="${sid}" onclick="tAS('${cat.k}','${sub.n}','${sid}')"><td><span class="ex${isO?' op':''}">▶</span>${sub.n}${at}</td>${sc}<td class="yc">${F(sy)}</td></tr>`;
+        tbody+=`<tr class="as${isO?' ao':''}" id="${sid}"><td style="cursor:pointer" onclick="tAS('${cat.k}','${sub.n}','${sid}')"><span class="ex${isO?' op':''}">▶</span>${sub.n}${at}</td>${sc}<td class="yc">${F(sy)}</td></tr>`;
         if(isO){
           // Build vendor totals per month across all months
           const vendorMap={};
