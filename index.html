@@ -770,9 +770,14 @@ function bA(){
               const v=vRow[mi];
               const isP=sp&&mi>cMi&&sub.ia&&v>0;
               const cl=(mi===cMi?'cc':(isP?'pc':'ec'));
-              vc+=`<td class="${cl}" style="font-size:8px;color:var(--t2);padding:3px 5px;text-align:right;white-space:nowrap;cursor:${v?'pointer':'default'}" ${v?`onclick="event.stopPropagation();oVendorCell(this,'${ck}','${sub.n}','${vk.replace(/'/g,"\\'")}',${mi})"`:''}>${v?F(v):'—'}</td>`;
+              const vkSafe=vk.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+              if(v){
+                vc+=`<td class="${cl}" style="font-size:8px;color:#1a4a2e;padding:3px 5px;text-align:right;white-space:nowrap;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px" onclick="event.stopPropagation();oVendorCell(this,'${ck}','${sub.n}','${vkSafe}',${mi})">${F(v)}</td>`;
+              } else {
+                vc+=`<td class="${cl}" style="font-size:8px;color:var(--t3);padding:3px 5px;text-align:right;white-space:nowrap">—</td>`;
+              }
             }
-            tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd);cursor:pointer" onclick="oVendorRow(this,'${ck}','${sub.n}','${vk.replace(/'/g,"\\'")}')"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
+            tbody+=`<tr style="background:#fafcfa;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
           });
         }
       });
