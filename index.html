@@ -768,11 +768,11 @@ function bA(){
             let vc='';
             for(let mi=0;mi<12;mi++){
               const v=vRow[mi];
-              const isP=sp&&mi>CI&&sub.ia&&v>0;
+              const isP=sp&&mi>cMi&&sub.ia&&v>0;
               const cl=(mi===cMi?'cc':(isP?'pc':'ec'));
-              vc+=`<td class="${cl}" style="font-size:8px;color:var(--t2);padding:3px 5px;text-align:right;white-space:nowrap">${v?F(v):'—'}</td>`;
+              vc+=`<td class="${cl}" style="font-size:8px;color:var(--t2);padding:3px 5px;text-align:right;white-space:nowrap;cursor:${v?'pointer':'default'}" ${v?`onclick="event.stopPropagation();oVendorCell(this,'${ck}','${sub.n}','${vk.replace(/'/g,"\\'")}',${mi})"`:''}>${v?F(v):'—'}</td>`;
             }
-            tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
+            tbody+=`<tr style="background:#fff;border-bottom:.5px solid var(--brd);cursor:pointer" onclick="oVendorRow(this,'${ck}','${sub.n}','${vk.replace(/'/g,"\\'")}')"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
           });
         }
       });
@@ -786,6 +786,40 @@ function bA(){
   document.getElementById('af').innerHTML=tf;
 }
 function oAC(el,ck,mi,isP){const cat=CATS.find(c=>c.k===ck);const txns=cat.subs.flatMap(s=>{const t=s.tx[mi];if(t)return t;const v=aMode==='accrual'?(s.a[mi]||0):(s.c[mi]||0);if(v&&isP&&s.ia)return[{d:'Accrual',v:s.n,s:'Monthly recurring',m:v,p:1}];if(v)return[{d:MS[mi],v:s.n,s:ck,m:v}];return[];});oD(el,ck,`${ML[mi]} ${cY}`,CATS.find(c=>c.k===ck).subs.reduce((s,sub)=>s+(aMode==='accrual'?(sub.a[mi]||0):(sub.c[mi]||0)),0),txns);}
+function esc(s){return String(s).replace(/'/g,"\\'")}
+function oVendorRow(el,ck,sn,vk){
+  const cat=CATS.find(c=>c.k===ck);
+  const sub=cat?cat.subs.find(s=>s.n===sn):null;
+  if(!sub)return;
+  // Collect all transactions for this vendor across all months
+  const txns=[];
+  for(let mi=0;mi<12;mi++){
+    (sub.tx[mi]||[]).forEach(t=>{
+      if((t.v||sub.n).toLowerCase()===vk.toLowerCase()||(t.v||'').toLowerCase().includes(vk.toLowerCase())||vk.toLowerCase().includes((t.v||'').toLowerCase())){
+        txns.push(t);
+      }
+    });
+  }
+  // Fallback: show monthly totals
+  if(!txns.length){
+    for(let mi=0;mi<12;mi++){
+      const sv=aMode==='accrual'?(sub.a[mi]||0):(sub.c[mi]||0);
+      if(sv)txns.push({d:MS[mi],v:vk,s:ck+' · '+sn,m:sv});
+    }
+  }
+  const tot=txns.reduce((s,t)=>s+t.m,0);
+  oD(el,vk,'Full Year '+cY,tot,txns);
+}
+function oVendorCell(el,ck,sn,vk,mi){
+  const cat=CATS.find(c=>c.k===ck);
+  const sub=cat?cat.subs.find(s=>s.n===sn):null;
+  if(!sub)return;
+  const txns=(sub.tx[mi]||[]).filter(t=>(t.v||sub.n).toLowerCase().includes(vk.toLowerCase())||vk.toLowerCase().includes((t.v||'').toLowerCase()));
+  const sv=aMode==='accrual'?(sub.a[mi]||0):(sub.c[mi]||0);
+  const finalTxns=txns.length?txns:[{d:MS[mi],v:vk,s:ck+' · '+sn,m:sv}];
+  const tot=finalTxns.reduce((s,t)=>s+t.m,0);
+  oD(el,vk,ML[mi]+' '+cY,tot,finalTxns);
+}
 function oAS(el,ck,sn,mi,isP,sid){const cat=CATS.find(c=>c.k===ck),sub=cat.subs.find(s=>s.n===sn);const v=aMode==='accrual'?(sub.a[mi]||0):(sub.c[mi]||0);let txns=sub.tx[mi];if(!txns)txns=v?[{d:isP?'Accrual':MS[mi],v:sn,s:ck,m:v,p:isP}]:[];oD(el,sn,`${ML[mi]} ${cY}`,v,txns);}
 
 // AI
