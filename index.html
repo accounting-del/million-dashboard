@@ -1274,11 +1274,12 @@ function processData(monthSet,txnsByMonthCatSub){
         const txns=((txnsByMonthCatSub[m.ml]||{})[catKey]||{})[subName]||[];
         const cashOnly=txns.filter(function(t){return !t.p;});
         const accOnly=txns.filter(function(t){return t.p;});
-        const cashTotal=cashOnly.reduce(function(s,t){return s+t.m;},0);
+        // Cash Basis: ALL transactions count in the month they were paid (including accrual-tagged ones)
+        const cashTotal=txns.reduce(function(s,t){return s+t.m;},0);
         cashVals[m.mi]+=cashTotal;
-        // Store accrual txns separately for distribution
+        // Store accrual txns separately for distribution in Accrual Basis
         if(accOnly.length)accTxnsByMonth[m.mi]=accOnly;
-        // txnMap for Cash view: all txns (cash+accrual shown as paid)
+        // txnMap for Cash view: all txns shown as paid in that month
         if(txns.length)txnMap[m.mi]=txns;
       });
       // Start accVals as copy of cashVals (cash transactions stay as-is)
