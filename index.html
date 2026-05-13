@@ -102,7 +102,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .mt tr.sr:hover td:first-child{color:var(--txt)}
 .mt tr.sr.asr td{background:#f5f8f5}
 .mt tr.sr.asr td:first-child{border-left:2px solid var(--hdr);color:var(--txt);font-weight:400;padding-left:28px}
-.mt tfoot td{font-size:10px;padding:7px 14px;border-top:1px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;font-family:var(--num)}
+.mt tfoot td{font-size:10px;padding:7px 14px;border-top:1px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;font-family:var(--num);position:sticky;bottom:0;z-index:2}
 .mt tfoot td:first-child{padding-left:20px;text-align:left}
 .mt tfoot td.yc{border-left:1px solid var(--b2);text-align:right!important}
 
@@ -166,7 +166,7 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .at2 tr.avt td{background:#e8f0e8!important;border-bottom:1px solid var(--b2)!important;cursor:default!important;padding:0!important}
 .avti{padding:5px 14px 5px 40px;display:flex;justify-content:space-between;font-size:8px;color:var(--t2)}
 .avtv{font-family:var(--num);font-size:13px;color:var(--txt);font-weight:500}
-.at2 tfoot td{font-size:9px;padding:7px 5px;border-top:1px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;text-align:right}
+.at2 tfoot td{font-size:9px;padding:7px 5px;border-top:1px solid var(--bs);border-bottom:none;color:var(--txt);font-weight:500;background:var(--sur);cursor:default;text-align:right;position:sticky;bottom:0;z-index:2}
 .at2 tfoot td:first-child{padding-left:20px;text-align:left}
 .at2 tfoot td.pc{background:var(--pbg);color:var(--ptx);font-style:italic}
 .at2 tfoot td.yc{border-left:1px solid var(--b2)}
@@ -791,9 +791,12 @@ function oAS(el,ck,sn,mi,isP,sid){const cat=CATS.find(c=>c.k===ck),sub=cat.subs.
 // AI
 let aiHistory = []; // historial de conversación
 function tAI(){
-  document.getElementById('aip').classList.toggle('op');
-  // limpiar historial al cerrar el panel
-  if(!document.getElementById('aip').classList.contains('op')){
+  const panel=document.getElementById('aip');
+  const btn=document.getElementById('ai-float');
+  panel.classList.toggle('op');
+  const isOpen=panel.classList.contains('op');
+  if(btn){btn.style.opacity=isOpen?'0':'1';btn.style.pointerEvents=isOpen?'none':'auto';btn.style.transform=isOpen?'scale(.9)':'scale(1)';}
+  if(!isOpen){
     aiHistory=[];
     document.getElementById('aim').innerHTML='<div class="aib"><div class="aibl">Claude</div>Ask anything about your expenses. Full context available.</div>';
   }
@@ -1296,13 +1299,18 @@ loadSupabaseContext();
 </script>
 
 <!-- FLOATING AI BUTTON -->
-<div id="ai-float" onclick="tAI()" style="position:fixed;bottom:28px;right:28px;background:var(--hdr);color:#fff;border-radius:12px;padding:12px 20px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.18);display:flex;align-items:center;gap:10px;z-index:100;transition:all .15s">
-  <span style="width:8px;height:8px;border-radius:50%;background:#4caf84;flex-shrink:0"></span>
+<style>
+@keyframes aipulse{0%,100%{box-shadow:0 0 0 3px rgba(76,175,132,.3)}50%{box-shadow:0 0 0 7px rgba(76,175,132,.08)}}
+#ai-float{position:fixed;bottom:28px;right:28px;background:var(--hdr);color:#fff;border-radius:12px;padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:10px;z-index:100;transition:opacity .2s,transform .2s}
+#ai-float:hover{opacity:.9}
+#ai-float .ai-dot{width:9px;height:9px;border-radius:50%;background:#4caf84;flex-shrink:0;animation:aipulse 2s infinite}
+</style>
+<div id="ai-float" onclick="tAI()">
+  <span class="ai-dot"></span>
   <div>
     <div style="font-size:11px;font-weight:500;letter-spacing:.04em">AI Analysis</div>
-    <div style="font-size:9px;opacity:.65;letter-spacing:.06em">Analiza los gastos del mes con IA</div>
+    <div style="font-size:9px;opacity:.6;letter-spacing:.04em">Pregúntale a Claude →</div>
   </div>
-  <div style="font-size:13px;opacity:.7;margin-left:4px">→</div>
 </div>
 </body>
 </html>
