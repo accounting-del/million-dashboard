@@ -30,7 +30,7 @@
 html,body{height:100%;overflow:hidden}
 body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased;font-size:13px}
 .app{display:flex;flex-direction:column;height:100vh}
-.wrap{display:flex;flex:1;overflow:hidden;min-height:0}
+.wrap{display:flex;flex:1;overflow-y:hidden;overflow-x:hidden;min-height:0}
 .main{flex:1;overflow-y:auto;min-width:0;display:flex;flex-direction:column}
 
 /* HEADER — oscuro */
@@ -86,19 +86,19 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .hd{width:3px;height:3px;border:.5px solid var(--t3);border-radius:50%;flex-shrink:0}
 
 /* MONTHLY TABLE */
-.ts{flex:1;overflow:auto}
+.ts{flex:1;overflow:auto;-webkit-overflow-scrolling:touch}#va .ts{overflow-x:auto;overflow-y:auto}
 .mt{width:auto;min-width:580px;border-collapse:collapse;table-layout:fixed}
 .mt thead th{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);font-weight:500;text-align:right;padding:9px 14px 10px;border-bottom:1.5px solid var(--b2);background:#f8faf8;position:sticky;top:0;z-index:2;white-space:nowrap;font-family:var(--cin)}
 .mt thead th:first-child{text-align:left;padding-left:16px;width:240px}
 .mt thead th.yh{border-left:1px solid var(--b2);color:var(--txt);font-weight:500;width:110px}
 /* Category rows — slightly taller, better contrast */
-.mt tr.cr td{font-size:10px;padding:8px 10px;border-bottom:1px solid var(--brd);background:#eef3ee;color:#1a2a1a;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis;font-weight:500;font-family:var(--san)}
-.mt tr.cr td:first-child{text-align:left;padding-left:14px;color:#1a2a1a;font-weight:500;font-family:var(--cin);font-size:10px;letter-spacing:.03em}
+.mt tr.cr td{font-size:13px;padding:10px 10px;border-bottom:1px solid var(--brd);background:#eef3ee;color:#1a2a1a;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis;font-weight:600;font-family:var(--san)}
+.mt tr.cr td:first-child{text-align:left;padding-left:14px;color:#1a2a1a;font-weight:600;font-family:var(--cin);font-size:13px;letter-spacing:.02em}
 .mt tr.cr:hover td{background:#dfeadf}
 .mt tr.cr.hl td{background:#eef3ee}.mt tr.cr.hl:hover td{background:#dfeadf}
 .mt td.yc{border-left:1px solid var(--b2);font-weight:500;color:var(--txt);cursor:default}
 /* Sub rows — more breathing room, larger font */
-.mt tr.sr td{font-size:13px;padding:7px 10px;border-bottom:1px solid var(--brd);background:#fff;color:var(--txt);text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis;font-weight:400;font-family:var(--san);font-style:normal;text-decoration:none}
+.mt tr.sr td{font-size:12px;padding:8px 10px;border-bottom:1px solid var(--brd);background:#f4f7f4;color:#2a3a2a;text-align:right;white-space:nowrap;cursor:pointer;transition:background .1s;overflow:hidden;text-overflow:ellipsis;font-weight:500;font-family:var(--san);font-style:normal;text-decoration:none}
 .mt tr.sr td:first-child{text-align:left;padding-left:24px;color:var(--t2);font-weight:400;border-left:2px solid transparent;transition:border-color .12s;font-family:var(--san)}
 .mt tr.sr:hover td{background:#edf4ed}
 .mt tr.sr:hover td:first-child{color:var(--txt)}
@@ -138,19 +138,19 @@ body{font-family:var(--san);font-weight:300;background:var(--bg);color:var(--txt
 .at2 thead th.ch{color:#1a3a1a;font-weight:600;background:#c8e6c0}
 .at2 thead th.ph{color:var(--t3)}
 .at2 thead th.yh{border-left:1px solid var(--b2);color:var(--txt);font-weight:500;width:88px}
-.at2 tr.ac td{font-size:10px;padding:9px 5px;border-bottom:1px solid var(--brd);text-align:right;color:var(--txt);white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:500;background:#eef3ee}
-.at2 tr.ac td:first-child{text-align:left;padding-left:20px;color:#1a2a1a;font-weight:500;background:#eef3ee;font-family:var(--cin);font-size:10px;position:sticky;left:0;z-index:1;box-shadow:2px 0 6px rgba(0,0,0,.07)}
+.at2 tr.ac td{font-size:13px;padding:10px 5px;border-bottom:1px solid var(--brd);text-align:right;color:#1a2a1a;white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:600;background:#eef3ee}
+.at2 tr.ac td:first-child{text-align:left;padding-left:20px;color:#1a2a1a;font-weight:600;background:#eef3ee;font-family:var(--cin);font-size:13px;position:sticky;left:0;z-index:1;box-shadow:2px 0 6px rgba(0,0,0,.07)}
 .at2 tr.ac:hover td{background:#dfeadf}
 .at2 tr.ac:hover td:first-child{background:#dfeadf}
-.at2 td.cc{background:#e8f5e2;font-weight:500;color:#1a3a1a}.at2 td.pc{background:#f0f0f0;color:var(--ptx);font-style:italic;cursor:pointer}
+.at2 td.cc{background:#d4edcc;font-weight:500;color:#1a3a1a}.at2 td.pc{background:#f0f0f0;color:var(--ptx);font-style:italic;cursor:pointer}
 .at2 td.pc:hover{background:#e4e4e4}.at2 td.ec{color:#c8d8c8;cursor:default}.at2 td.ec:hover{background:none}
 .at2 td.yc{border-left:1px solid var(--b2);font-weight:500;color:var(--txt);cursor:default}
 .at2 td.yc:hover{background:none}
-.at2 tr.as td{font-size:13px;padding:7px 5px;border-bottom:1px solid var(--brd);background:#fff;text-align:right;color:var(--txt);white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:400;font-style:normal;text-decoration:none}
-.at2 tr.as td:first-child{text-align:left;padding-left:28px;color:var(--t2);font-weight:400;position:sticky;left:0;z-index:1;background:#fff;box-shadow:2px 0 6px rgba(0,0,0,.04)}
-.at2 tr.as td.cc{background:#e8f5e2;font-weight:500;color:#1a3a1a}.at2 tr.as td.pc{background:#f0f0f0}
-.at2 tr.as:hover td:not(.ec):not(.yc){background:#edf4ed}
-.at2 tr.as:hover td:first-child{background:#edf4ed}
+.at2 tr.as td{font-size:12px;padding:8px 5px;border-bottom:1px solid var(--brd);background:#f4f7f4;text-align:right;color:#2a3a2a;white-space:nowrap;cursor:pointer;transition:background .1s;font-weight:500;font-style:normal;text-decoration:none}
+.at2 tr.as td:first-child{text-align:left;padding-left:20px;color:#3a4a3a;font-weight:500;position:sticky;left:0;z-index:1;background:#f4f7f4;box-shadow:2px 0 6px rgba(0,0,0,.06)}
+.at2 tr.as td.cc{background:#d4edcc;font-weight:500;color:#1a3a1a}.at2 tr.as td.pc{background:#f0f0f0}
+.at2 tr.as:hover td:not(.ec):not(.yc){background:#e4ede4}
+.at2 tr.as:hover td:first-child{background:#e4ede4}
 .at2 tr.as.ao td{background:#f0f5f0}
 .at2 tr.as.ao td:first-child{color:var(--txt);font-weight:400;border-left:2px solid var(--hdr);padding-left:26px;background:#f0f5f0}
 .at2 tr.av-vrow td{background:#fafcfa;border-bottom:1px solid var(--brd)}
@@ -776,12 +776,12 @@ function bA(){
               const cl=(mi===cMi?'cc':(isP?'pc':'ec'));
               const vkSafe=vk.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
               if(v){
-                vc+=`<td class="${cl}" style="font-size:8px;color:var(--txt);padding:3px 5px;text-align:right;white-space:nowrap;cursor:pointer;text-decoration:underline;text-decoration-color:var(--b2);text-underline-offset:2px" onclick="event.stopPropagation();oVendorCell(this,'${cat.k}','${sub.n}','${vkSafe}',${mi})">${F(v)}</td>`;
+                vc+=`<td class="${cl}" style="font-size:11px;color:var(--txt);padding:4px 5px;text-align:right;white-space:nowrap;cursor:pointer;" onclick="event.stopPropagation();oVendorCell(this,'${cat.k}','${sub.n}','${vkSafe}',${mi})">${F(v)}</td>`;
               } else {
                 vc+=`<td class="${cl}" style="font-size:8px;color:var(--t3);padding:3px 5px;text-align:right;white-space:nowrap">—</td>`;
               }
             }
-            tbody+=`<tr style="background:#fafcfa;border-bottom:.5px solid var(--brd)"><td style="padding:3px 5px 3px 52px;font-size:8px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:8px;font-weight:500;color:var(--txt);padding:3px 5px;text-align:right">${F(vTot)}</td></tr>`;
+            tbody+=`<tr style="background:#fafcfa;border-bottom:.5px solid var(--brd)"><td style="padding:4px 5px 4px 52px;font-size:11px;color:var(--t2);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${vk}">${vk}</td>${vc}<td class="yc" style="font-size:11px;font-weight:500;color:var(--txt);padding:4px 5px;text-align:right">${F(vTot)}</td></tr>`;
           });
         }
       });
